@@ -1,0 +1,55 @@
+export const techStack = [
+  {
+    category: "Frontend",
+    techs: [
+      "React",
+      "Next.js",
+      "Tailwind CSS",
+      "TypeScript",
+      "Vite",
+      "Prettier",
+    ],
+  },
+  {
+    category: "Backend",
+    techs: [
+      "Node.js",
+      "Laravel",
+      "JWT",
+      "PHP",
+      "Python",
+      "ASP.NET",
+      "REST API",
+    ],
+  },
+  // { category: "Database", techs: ["Firebase", "PostgreSQL"] },
+  {
+    category: "Mobile",
+    techs: ["React Native", "Flutter", "Android"],
+  },
+  // { category: "Desktop", techs: ["Java Swing", ".NET"] },
+  // {
+  //   category: "AI & Machine Learning",
+  //   techs: ["OpenAI", "Gemini", "Tensorflow", "PyTorch"],
+  // },
+  // {
+  //   category: "Developer Tools",
+  //   techs: [
+  //     "Git",
+  //     "Github",
+  //     "VS Code",
+  //     "JetBrains IntelliJ IDEA",
+  //     "PyCharm",
+  //     "Cursor",
+  //     "Postman",
+  //     "Swagger",
+  //     "Discord",
+  //     "Teams",
+  //     "Trello",
+  //     "Notion",
+  //     "Figma",
+  //     "Canva",
+  //     "Microsoft Office",
+  //   ],
+  // },
+];

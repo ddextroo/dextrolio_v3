@@ -28,6 +28,8 @@ import {
 } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
 import { useTheme } from "next-themes";
+import { recentProjects } from "@/dto/projects.dto";
+import { techStack } from "@/dto/tech_stack.dto";
 
 export default function App() {
   const [isPlaying, setIsPlaying] = useState(true);
@@ -64,92 +66,6 @@ export default function App() {
       setIsMuted(!isMuted);
     }
   };
-
-  const techStack = [
-    {
-      category: "Frontend",
-      techs: [
-        "React",
-        "Next.js",
-        "Tailwind CSS",
-        "TypeScript",
-        "Vite",
-        "Prettier",
-      ],
-    },
-    {
-      category: "Backend",
-      techs: [
-        "Node.js",
-        "Laravel",
-        "JWT",
-        "PHP",
-        "Python",
-        "ASP.NET",
-        "REST API",
-      ],
-    },
-    // { category: "Database", techs: ["Firebase", "PostgreSQL"] },
-    {
-      category: "Mobile",
-      techs: ["React Native", "Flutter", "Android"],
-    },
-    // { category: "Desktop", techs: ["Java Swing", ".NET"] },
-    // {
-    //   category: "AI & Machine Learning",
-    //   techs: ["OpenAI", "Gemini", "Tensorflow", "PyTorch"],
-    // },
-    // {
-    //   category: "Developer Tools",
-    //   techs: [
-    //     "Git",
-    //     "Github",
-    //     "VS Code",
-    //     "JetBrains IntelliJ IDEA",
-    //     "PyCharm",
-    //     "Cursor",
-    //     "Postman",
-    //     "Swagger",
-    //     "Discord",
-    //     "Teams",
-    //     "Trello",
-    //     "Notion",
-    //     "Figma",
-    //     "Canva",
-    //     "Microsoft Office",
-    //   ],
-    // },
-  ];
-
-  const recentProjects = [
-    {
-      name: "E-commerce Platform",
-      description:
-        "A full-stack web application for online retail with real-time inventory management.",
-      image: "/placeholder.svg?height=200&width=300",
-      link: "#",
-      date: "June 2023",
-      type: "web",
-    },
-    {
-      name: "Fitness Tracker App",
-      description:
-        "A cross-platform mobile app for tracking workouts and nutrition with cloud sync.",
-      image: "/placeholder.svg?height=200&width=300",
-      link: "#",
-      date: "April 2023",
-      type: "mobile",
-    },
-    {
-      name: "Video Editing Suite",
-      description:
-        "A desktop application for professional video editing with GPU acceleration.",
-      image: "/placeholder.svg?height=200&width=300",
-      link: "#",
-      date: "February 2023",
-      type: "desktop",
-    },
-  ];
 
   const themeSwitch = (
     <div className="flex items-center space-x-2">
