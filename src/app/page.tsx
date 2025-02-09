@@ -106,16 +106,16 @@ export default function App() {
                 </div>
               </div>
             </div>
-            <div className="flex flex-col sm:flex-row items-center gap-3">
+            <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
               <Button
                 variant="default"
-                className="bg-primary text-primary-foreground hover:bg-primary/90"
+                className="bg-primary text-primary-foreground hover:bg-primary/90 px-6 py-2 font-medium"
               >
                 <Calendar className="mr-2 h-4 w-4" /> Schedule a Call
               </Button>
               <Button
                 variant="outline"
-                className="text-primary hover:bg-primary/10"
+                className="border-primary text-primary hover:bg-primary/10 px-6 py-2 font-medium"
               >
                 <Mail className="mr-2 h-4 w-4" /> Send Email
               </Button>
