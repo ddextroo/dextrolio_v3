@@ -123,7 +123,7 @@ export default function App() {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
           {/* Video Intro Card */}
           <Card className="col-span-full lg:col-span-2 bg-card border border-border overflow-hidden">
             <div className="relative aspect-video">
@@ -205,9 +205,9 @@ export default function App() {
               <CardTitle className="text-2xl text-foreground flex items-center">
                 <span className="w-1 h-8 bg-primary mr-3"></span>Tech Stack
               </CardTitle>
-              <Button variant="link" className="text-primary">
+              {/* <Button variant="link" className="text-primary">
                 View All <ChevronRight className="ml-1 h-4 w-4" />
-              </Button>
+              </Button> */}
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
@@ -281,6 +281,24 @@ export default function App() {
             </CardContent>
           </Card>
 
+          {/* Freelancing Stats Card */}
+          <Card className="col-span-full md:col-span-1 bg-card border border-border">
+            <CardHeader>
+              <CardTitle className="text-2xl text-foreground flex items-center">
+                {/* <CardTitle className="text-2xl text-foreground flex items-center justify-center"> */}
+                <span className="w-1 h-8 bg-primary mr-3"></span>Freelancing
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="flex items-center justify-center">
+              <div className="text-center">
+                <p className="text-5xl font-bold mb-2 text-primary">30+</p>
+                <p className="text-xl text-muted-foreground">
+                  Satisfied Clients
+                </p>
+              </div>
+            </CardContent>
+          </Card>
+
           {/* Recent Projects Card */}
           <Card className="col-span-full bg-card border border-border">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
@@ -338,23 +356,6 @@ export default function App() {
             </CardContent>
           </Card>
 
-          {/* Freelancing Stats Card */}
-          <Card className="col-span-full md:col-span-1 bg-card border border-border">
-            <CardHeader>
-              <CardTitle className="text-2xl text-foreground flex items-center justify-center">
-                <span className="w-1 h-8 bg-primary mr-3"></span>Freelancing
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="flex items-center justify-center">
-              <div className="text-center">
-                <p className="text-5xl font-bold mb-2 text-primary">30+</p>
-                <p className="text-xl text-muted-foreground">
-                  Satisfied Clients
-                </p>
-              </div>
-            </CardContent>
-          </Card>
-
           {/* Testimonials Card */}
           <Card className="col-span-full md:col-span-1 bg-card border border-border">
             <CardHeader>
@@ -377,7 +378,7 @@ export default function App() {
           {/* Connect Card */}
           <Card className="col-span-full md:col-span-1 bg-card border border-border">
             <CardHeader>
-              <CardTitle className="text-2xl text-foreground flex items-center justify-center">
+              <CardTitle className="text-2xl text-foreground flex items-center">
                 <span className="w-1 h-8 bg-primary mr-3"></span>Connect
               </CardTitle>
             </CardHeader>
