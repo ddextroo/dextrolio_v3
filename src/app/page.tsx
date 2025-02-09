@@ -98,6 +98,10 @@ export default function App() {
                 width={150}
                 height={150}
                 className="rounded-lg mr-6"
+                loading="lazy"
+                placeholder="blur"
+                blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDABQODxIPDRQSEBIXFRQdHx4dHRsdHR4dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR3/2wBDAR4SEhwYHDIYGDIdHRkyLR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR3/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAb/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
+                quality={90}
               />
               <div>
                 <h1 className="text-2xl font-bold mb-2 text-foreground">
@@ -286,7 +290,7 @@ export default function App() {
                 <span className="w-1 h-8 bg-primary mr-3"></span>Experience
               </CardTitle>
             </CardHeader>
-            <CardContent>
+            <CardContent className="pt-4">
               <div className="space-y-4">
                 {[
                   {
@@ -316,7 +320,7 @@ export default function App() {
                         <div className="w-0.5 h-full bg-primary mt-1"></div>
                       )}
                     </div>
-                    <div>
+                    <div className="pt-[-4px]">
                       <h3 className="font-semibold text-xs text-foreground">
                         {job.role}
                       </h3>
@@ -338,11 +342,11 @@ export default function App() {
                 <span className="w-1 h-8 bg-primary mr-3"></span>Achievements
               </CardTitle>
             </CardHeader>
-            <CardContent>
+            <CardContent className="pt-4">
               <div className="space-y-4">
                 {[
                   {
-                    title: "1st Place",
+                    title: "2nd Place",
                     description: "Product Innovation and Research Summit",
                     date: "December 13, 2024",
                   },
@@ -359,11 +363,11 @@ export default function App() {
                           index === 0 ? "bg-primary" : "bg-card"
                         }`}
                       ></div>
-                      {index !== 2 && (
+                      {index !== 1 && (
                         <div className="w-0.5 h-full bg-primary mt-1"></div>
                       )}
                     </div>
-                    <div>
+                    <div className="pt-[-4px]">
                       <h3 className="font-semibold text-xs text-foreground">
                         {achievement.title}
                       </h3>
@@ -401,6 +405,55 @@ export default function App() {
             </CardContent>
           </Card>
 
+          {/* School Organizations Card */}
+          <Card className="col-span-full md:col-span-1 bg-card border border-border">
+            <CardHeader className="pb-2">
+              <CardTitle className="text-xl text-foreground flex items-center">
+                <span className="w-1 h-8 bg-primary mr-3"></span>School
+                Organizations
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="pt-4">
+              <div className="space-y-4">
+                {[
+                  {
+                    org: "Google Developer Groups on Campus - Cebu Technological Campus",
+                    roles: [
+                      {
+                        title: "Chief Technology Officer",
+                        period: "August 2024 - Present",
+                      },
+                      {
+                        title: "Mobile Development Lead",
+                        period: "September 2023 - August 2024",
+                      },
+                    ],
+                  },
+                ].map((org, index) => (
+                  <div key={index} className="flex">
+                    <div className="flex flex-col items-center mr-4">
+                      <div className="w-3 h-3 border-2 border-primary rounded-full bg-primary"></div>
+                      <div className="w-0.5 h-full bg-primary mt-1"></div>
+                    </div>
+                    <div className="pt-[-4px]">
+                      <h3 className="font-semibold text-xs text-foreground mb-2">
+                        {org.org}
+                      </h3>
+                      {org.roles.map((role, roleIndex) => (
+                        <div key={roleIndex} className="mb-2 last:mb-0">
+                          <p className="text-xs text-primary">{role.title}</p>
+                          <p className="text-xs text-muted-foreground">
+                            {role.period}
+                          </p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+
           {/* top Projects Card */}
           <Card className="col-span-full bg-card border border-border">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
@@ -422,6 +475,10 @@ export default function App() {
                         layout="fill"
                         objectFit="cover"
                         className="transition-transform duration-300 hover:scale-105"
+                        loading="lazy"
+                        placeholder="blur"
+                        blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDABQODxIPDRQSEBIXFRQdHx4dHRsdHR4dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR3/2wBDAR4SEhwYHDIYGDIdHRkyLR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR3/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAb/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
+                        quality={90}
                       />
                       <div className="absolute top-2 right-2">
                         {project.type === "web" && (
