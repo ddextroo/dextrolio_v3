@@ -25,6 +25,8 @@ import {
   Volume2,
   VolumeX,
   MapPin,
+  Briefcase,
+  Users,
 } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
 import { useTheme } from "next-themes";
@@ -285,16 +287,21 @@ export default function App() {
           <Card className="col-span-full md:col-span-1 bg-card border border-border">
             <CardHeader>
               <CardTitle className="text-2xl text-foreground flex items-center">
-                {/* <CardTitle className="text-2xl text-foreground flex items-center justify-center"> */}
                 <span className="w-1 h-8 bg-primary mr-3"></span>Freelancing
               </CardTitle>
             </CardHeader>
-            <CardContent className="flex items-center justify-center">
-              <div className="text-center">
-                <p className="text-5xl font-bold mb-2 text-primary">30+</p>
-                <p className="text-xl text-muted-foreground">
+            <CardContent className="flex items-center justify-around">
+              <div className="text-center flex flex-col items-center">
+                <Users className="w-8 h-8 mb-2 text-primary" />
+                <p className="text-4xl font-bold mb-2 text-primary">30+</p>
+                <p className="text-lg text-muted-foreground">
                   Satisfied Clients
                 </p>
+              </div>
+              <div className="text-center flex flex-col items-center">
+                <Briefcase className="w-8 h-8 mb-2 text-primary" />
+                <p className="text-4xl font-bold mb-2 text-primary">50+</p>
+                <p className="text-lg text-muted-foreground">Projects Made</p>
               </div>
             </CardContent>
           </Card>
