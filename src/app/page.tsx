@@ -115,7 +115,7 @@ export default function App() {
               </Button>
               <Button
                 variant="outline"
-                className="border-primary text-primary hover:bg-primary/10 px-6 py-2 font-medium"
+                className="text-primary hover:bg-primary/10 px-6 py-2 font-medium"
               >
                 <Mail className="mr-2 h-4 w-4" /> Send Email
               </Button>
