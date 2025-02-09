@@ -163,7 +163,7 @@ export default function App() {
               <video
                 ref={videoRef}
                 className="w-full h-full object-cover"
-                poster="/placeholder.svg?height=720&width=1280"
+                poster="/assets/thumbnail.png"
                 muted
                 loop
                 playsInline

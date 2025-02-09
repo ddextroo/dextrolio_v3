@@ -34,8 +34,7 @@ export const recentProjects = [
       "Vite",
       "Flask",
       "OpenAI",
-      "Firebase Cloud Firestore",
-      "Firebase Authentication",
+      "Firebase",
     ],
   },
 ];
