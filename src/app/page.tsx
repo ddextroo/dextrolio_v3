@@ -91,23 +91,23 @@ export default function App() {
         <div className="col-span-full md:col-span-2 lg:col-span-3 bg-card rounded-lg py-4 mb-6">
           <div className="flex justify-end mb-2">{themeSwitch}</div>
           <div className="flex flex-col md:flex-row items-center justify-between px-4">
-            <div className="flex items-center mb-4 md:mb-0">
+            <div className="flex flex-col sm:flex-row items-center mb-4 md:mb-0">
               <Image
                 src="/assets/me.jpg"
                 alt="Profile Picture"
                 width={150}
                 height={150}
-                className="rounded-lg mr-6"
+                className="rounded-lg sm:mx-auto sm:mr-6 mr-0"
                 loading="lazy"
                 placeholder="blur"
                 blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDABQODxIPDRQSEBIXFRQdHx4dHRsdHR4dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR3/2wBDAR4SEhwYHDIYGDIdHRkyLR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR3/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAb/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
                 quality={90}
               />
-              <div>
+              <div className="sm:text-center flex flex-col items-center sm:items-start">
                 <h1 className="text-2xl font-bold mb-2 text-foreground">
                   Dexter G. Inguito
                 </h1>
-                <div className="flex items-center gap-2 mb-2">
+                <div className="flex items-center gap-2 mb-2 sm:justify-center">
                   <Badge
                     variant="secondary"
                     className="bg-primary/10 text-primary"
@@ -122,12 +122,12 @@ export default function App() {
                     Freelancer
                   </Badge>
                 </div>
-                <div className="flex flex-col text-muted-foreground">
+                <div className="flex flex-col text-muted-foreground sm:items-start items-center">
                   <div className="flex items-center">
                     <MapPin className="mr-2 h-4 w-4" />
                     <p className="text-xs">Mandaue City</p>
                   </div>
-                  <p className="text-xs ml-6">Cebu, Philippines 6014</p>
+                  <p className="text-xs sm:ml-0 ml-6">Cebu, Philippines 6014</p>
                 </div>
               </div>
             </div>
@@ -136,18 +136,22 @@ export default function App() {
                 href="https://m.me/dexter.inguito.7"
                 target="_blank"
                 rel="noopener noreferrer"
+                className="w-full sm:w-auto"
               >
                 <Button
                   variant="default"
-                  className="bg-primary text-primary-foreground hover:bg-primary/90 px-6 py-2 text-sm font-medium"
+                  className="w-full bg-primary text-primary-foreground hover:bg-primary/90 px-6 py-2 text-sm font-medium"
                 >
                   <Facebook className="mr-2 h-4 w-4" /> Message me
                 </Button>
               </a>
-              <a href="mailto:dexteringuito3@gmail.com">
+              <a
+                href="mailto:dexteringuito3@gmail.com"
+                className="w-full sm:w-auto"
+              >
                 <Button
                   variant="outline"
-                  className="text-primary hover:bg-primary/10 px-6 py-2 text-sm font-medium"
+                  className="w-full text-primary hover:bg-primary/10 px-6 py-2 text-sm font-medium"
                 >
                   <Mail className="mr-2 h-4 w-4" /> Send Email
                 </Button>
@@ -174,7 +178,7 @@ export default function App() {
               </video>
               <div className="absolute bottom-4 right-4 flex gap-2">
                 <Button
-                  className="bg-primary text-primary-foreground hover:bg-primary/90 text-sm"
+                  className="bg-primary text-primary-foreground hover:bg-primary/90 text-sm sm:text-xs"
                   onClick={toggleMute}
                 >
                   {isMuted ? (
@@ -190,7 +194,7 @@ export default function App() {
                   )}
                 </Button>
                 <Button
-                  className="bg-primary text-primary-foreground hover:bg-primary/90 text-sm"
+                  className="bg-primary text-primary-foreground hover:bg-primary/90 text-sm sm:text-xs"
                   onClick={toggleVideo}
                 >
                   {isPlaying ? (
@@ -259,6 +263,8 @@ export default function App() {
                             tech === "Java Swing") ||
                           (category.category === "AI & Machine Learning" &&
                             tech === "Tensorflow") ||
+                          (category.category === "Mobile" &&
+                            (tech === "Flutter" || tech === "Android")) ||
                           (category.category === "Developer Tools" &&
                             (tech === "Github" || tech === "VS Code"));
 
@@ -417,7 +423,7 @@ export default function App() {
               <div className="space-y-4">
                 {[
                   {
-                    org: "Google Developer Groups on Campus - Cebu Technological Campus",
+                    org: "Google Developer Groups on Campus - Cebu Technological University - Main Campus",
                     roles: [
                       {
                         title: "Chief Technology Officer",
