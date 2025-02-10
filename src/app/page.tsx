@@ -28,17 +28,20 @@ import {
   Briefcase,
   Users,
   Facebook,
+  ChevronLeft,
 } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
 import { useTheme } from "next-themes";
 import { recentProjects } from "@/dto/projects.dto";
 import { techStack } from "@/dto/tech_stack.dto";
+import { testimonials } from "@/dto/testimonial.dto";
 
 export default function App() {
   const [isPlaying, setIsPlaying] = useState(true);
   const [isMuted, setIsMuted] = useState(true);
   const [mounted, setMounted] = useState(false);
   const [showFullDescription, setShowFullDescription] = useState(false);
+  const [currentSlide, setCurrentSlide] = useState(0);
   const { theme, setTheme } = useTheme();
   const videoRef = useRef<HTMLVideoElement>(null);
 
@@ -162,7 +165,7 @@ export default function App() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4">
           {/* Video Intro Card */}
-          <Card className="col-span-full lg:col-span-2 bg-card border border-border overflow-hidden">
+          <Card className="col-span-full lg:col-span-2 bg-card border border-border overflow-hidden hover:shadow-lg transition-shadow duration-300">
             <div className="relative aspect-video">
               <video
                 ref={videoRef}
@@ -209,10 +212,13 @@ export default function App() {
           </Card>
 
           {/* About Card */}
-          <Card className="col-span-full lg:col-span-1 bg-card border border-border">
+          <Card className="col-span-full lg:col-span-1 bg-card border border-border hover:shadow-lg transition-shadow duration-300">
             <CardHeader className="pb-2">
               <CardTitle className="text-xl text-foreground flex items-center">
-                <span className="w-1 h-8 bg-primary mr-3"></span>About Me
+                <span className="w-1 h-8 bg-primary mr-3"></span>
+                <span className="bg-gradient-to-r from-primary to-primary/60 text-transparent bg-clip-text">
+                  About Me
+                </span>
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -237,10 +243,13 @@ export default function App() {
           </Card>
 
           {/* Tech Stack Card */}
-          <Card className="col-span-full md:col-span-1 bg-card border border-border">
+          <Card className="col-span-full md:col-span-1 bg-card border border-border hover:shadow-lg transition-shadow duration-300">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-xl text-foreground flex items-center">
-                <span className="w-1 h-8 bg-primary mr-3"></span>Tech Stack
+                <span className="w-1 h-8 bg-primary mr-3"></span>
+                <span className="bg-gradient-to-r from-primary to-primary/60 text-transparent bg-clip-text">
+                  Tech Stack
+                </span>
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -290,50 +299,68 @@ export default function App() {
           </Card>
 
           {/* Experience Card */}
-          <Card className="col-span-full md:col-span-1 lg:col-span-1 bg-card border border-border">
+          <Card className="col-span-full md:col-span-1 lg:col-span-1 bg-card border border-border hover:shadow-lg transition-shadow duration-300">
             <CardHeader className="pb-2">
               <CardTitle className="text-xl text-foreground flex items-center">
-                <span className="w-1 h-8 bg-primary mr-3"></span>Experience
+                <span className="w-1 h-8 bg-primary mr-3 rounded-full"></span>
+                <span className="bg-gradient-to-r from-primary to-primary/60 text-transparent bg-clip-text">
+                  Experience
+                </span>
               </CardTitle>
             </CardHeader>
             <CardContent className="pt-4">
-              <div className="space-y-4">
+              <div className="space-y-6">
                 {[
                   {
                     role: "Mobile App Developer and Web Developer",
                     company: "Freelancer",
                     period: "2020 - Present",
+                    description:
+                      "Building custom mobile and web solutions for clients",
                   },
                   {
                     role: "Full Stack Developer",
                     company: "Ultima Reviewer",
                     period: "2021 - 2024",
+                    description:
+                      "Developing full-stack applications and managing technical infrastructure",
                   },
                   {
                     role: "Product Lead Developer",
                     company: "Unirises",
                     period: "2020 - 2021",
+                    description:
+                      "Led product development and technical team management",
                   },
                 ].map((job, index) => (
-                  <div key={index} className="flex">
+                  <div key={index} className="flex group">
                     <div className="flex flex-col items-center mr-4">
                       <div
-                        className={`w-3 h-3 border-2 border-primary rounded-full ${
-                          index === 0 ? "bg-primary" : "bg-card"
+                        className={`w-3 h-3 border-2 border-primary rounded-full transition-all duration-300 group-hover:scale-125 ${
+                          index === 0
+                            ? "bg-primary"
+                            : "bg-card group-hover:bg-primary/50"
                         }`}
                       ></div>
                       {index !== 2 && (
-                        <div className="w-0.5 h-full bg-primary mt-1"></div>
+                        <div className="w-0.5 flex-grow bg-primary/50 mt-1"></div>
                       )}
                     </div>
-                    <div className="pt-[-4px]">
-                      <h3 className="font-semibold text-xs text-foreground">
-                        {job.role}
-                      </h3>
-                      <p className="text-xs text-primary">{job.company}</p>
-                      <p className="text-xs text-muted-foreground">
-                        {job.period}
-                      </p>
+                    <div className="flex-1 -mt-1">
+                      <div className="bg-card hover:bg-muted/50 p-3 rounded-lg transition-colors duration-200">
+                        <h3 className="font-semibold text-sm text-foreground">
+                          {job.role}
+                        </h3>
+                        <p className="text-sm text-primary font-medium">
+                          {job.company}
+                        </p>
+                        <p className="text-xs text-muted-foreground mb-2">
+                          {job.period}
+                        </p>
+                        <p className="text-xs text-muted-foreground">
+                          {job.description}
+                        </p>
+                      </div>
                     </div>
                   </div>
                 ))}
@@ -342,10 +369,13 @@ export default function App() {
           </Card>
 
           {/* Achievements Card */}
-          <Card className="col-span-full md:col-span-1 bg-card border border-border">
+          <Card className="col-span-full md:col-span-1 bg-card border border-border hover:shadow-lg transition-shadow duration-300">
             <CardHeader className="pb-2">
               <CardTitle className="text-xl text-foreground flex items-center">
-                <span className="w-1 h-8 bg-primary mr-3"></span>Achievements
+                <span className="w-1 h-8 bg-primary mr-3 rounded-full"></span>
+                <span className="bg-gradient-to-r from-primary to-primary/60 text-transparent bg-clip-text">
+                  Achievements
+                </span>
               </CardTitle>
             </CardHeader>
             <CardContent className="pt-4">
@@ -362,25 +392,31 @@ export default function App() {
                     date: "July 21, 2024",
                   },
                 ].map((achievement, index) => (
-                  <div key={index} className="flex">
+                  <div key={index} className="flex group">
                     <div className="flex flex-col items-center mr-4">
                       <div
-                        className={`w-3 h-3 border-2 border-primary rounded-full ${
-                          index === 0 ? "bg-primary" : "bg-card"
+                        className={`w-3 h-3 border-2 border-primary rounded-full transition-all duration-300 group-hover:scale-125 ${
+                          index === 0
+                            ? "bg-primary"
+                            : "bg-card group-hover:bg-primary/50"
                         }`}
                       ></div>
                       {index !== 1 && (
-                        <div className="w-0.5 h-full bg-primary mt-1"></div>
+                        <div className="w-0.5 flex-grow bg-primary/50 mt-1"></div>
                       )}
                     </div>
-                    <div className="pt-[-4px]">
-                      <h3 className="font-semibold text-xs text-foreground">
-                        {achievement.title}
-                      </h3>
-                      <p className="text-xs text-muted-foreground">
-                        {achievement.description}
-                      </p>
-                      <p className="text-xs text-primary">{achievement.date}</p>
+                    <div className="flex-1 -mt-1">
+                      <div className="bg-card hover:bg-muted/50 p-3 rounded-lg transition-colors duration-200">
+                        <h3 className="font-semibold text-sm text-foreground">
+                          {achievement.title}
+                        </h3>
+                        <p className="text-sm text-muted-foreground">
+                          {achievement.description}
+                        </p>
+                        <p className="text-xs text-primary mt-1">
+                          {achievement.date}
+                        </p>
+                      </div>
                     </div>
                   </div>
                 ))}
@@ -389,38 +425,57 @@ export default function App() {
           </Card>
 
           {/* Freelancing Stats Card */}
-          <Card className="col-span-full md:col-span-1 bg-card border border-border">
+          <Card className="col-span-full md:col-span-1 bg-card border border-border hover:shadow-lg transition-shadow duration-300">
             <CardHeader className="pb-2">
               <CardTitle className="text-xl text-foreground flex items-center">
-                <span className="w-1 h-8 bg-primary mr-3"></span>Freelancing
+                <span className="w-1 h-8 bg-primary mr-3"></span>
+                <span className="bg-gradient-to-r from-primary to-primary/60 text-transparent bg-clip-text">
+                  Freelancing Journey
+                </span>
               </CardTitle>
             </CardHeader>
-            <CardContent className="flex items-center justify-around">
-              <div className="text-center flex flex-col items-center">
-                <Users className="w-8 h-8 mb-2 text-primary" />
-                <p className="text-3xl font-bold mb-2 text-primary">30+</p>
-                <p className="text-base text-muted-foreground">
-                  Satisfied Clients
-                </p>
-              </div>
-              <div className="text-center flex flex-col items-center">
-                <Briefcase className="w-8 h-8 mb-2 text-primary" />
-                <p className="text-3xl font-bold mb-2 text-primary">50+</p>
-                <p className="text-base text-muted-foreground">Projects Made</p>
+            <CardContent>
+              <div className="grid grid-cols-2 gap-6 p-4">
+                <div className="relative flex flex-col items-center p-6 rounded-lg transition-transform hover:scale-105">
+                  <Users className="w-10 h-10 mb-3 text-primary" />
+                  <div className="relative">
+                    <p className="text-4xl font-bold text-primary">30+</p>
+                    <span className="absolute -top-1 -right-4 text-xs text-primary animate-pulse">
+                      ↗
+                    </span>
+                  </div>
+                  <p className="text-sm text-muted-foreground mt-2">
+                    Satisfied Clients
+                  </p>
+                </div>
+                <div className="relative flex flex-col items-center p-6 rounded-lg transition-transform hover:scale-105">
+                  <Briefcase className="w-10 h-10 mb-3 text-primary" />
+                  <div className="relative">
+                    <p className="text-4xl font-bold text-primary">50+</p>
+                    <span className="absolute -top-1 -right-4 text-xs text-primary animate-pulse">
+                      ↗
+                    </span>
+                  </div>
+                  <p className="text-sm text-muted-foreground mt-2">
+                    Projects Completed
+                  </p>
+                </div>
               </div>
             </CardContent>
           </Card>
 
           {/* School Organizations Card */}
-          <Card className="col-span-full md:col-span-1 bg-card border border-border">
+          <Card className="col-span-full md:col-span-1 bg-card border border-border hover:shadow-lg transition-shadow duration-300">
             <CardHeader className="pb-2">
               <CardTitle className="text-xl text-foreground flex items-center">
-                <span className="w-1 h-8 bg-primary mr-3"></span>School
-                Organizations
+                <span className="w-1 h-8 bg-primary mr-3 rounded-full"></span>
+                <span className="bg-gradient-to-r from-primary to-primary/60 text-transparent bg-clip-text">
+                  School Organizations
+                </span>
               </CardTitle>
             </CardHeader>
             <CardContent className="pt-4">
-              <div className="space-y-4">
+              <div className="space-y-6">
                 {[
                   {
                     org: "Google Developer Groups on Campus - Cebu Technological University - Main Campus",
@@ -436,23 +491,30 @@ export default function App() {
                     ],
                   },
                 ].map((org, index) => (
-                  <div key={index} className="flex">
+                  <div key={index} className="flex group">
                     <div className="flex flex-col items-center mr-4">
-                      <div className="w-3 h-3 border-2 border-primary rounded-full bg-primary"></div>
-                      <div className="w-0.5 h-full bg-primary mt-1"></div>
+                      <div className="w-4 h-4 border-2 border-primary rounded-full bg-background group-hover:bg-primary transition-colors duration-200"></div>
+                      <div className="w-0.5 h-full bg-primary/30 group-hover:bg-primary transition-colors duration-200"></div>
                     </div>
-                    <div className="pt-[-4px]">
-                      <h3 className="font-semibold text-xs text-foreground mb-2">
+                    <div className="pt-[-4px] flex-1">
+                      <h3 className="font-semibold text-sm text-foreground mb-3 group-hover:text-primary transition-colors duration-200">
                         {org.org}
                       </h3>
-                      {org.roles.map((role, roleIndex) => (
-                        <div key={roleIndex} className="mb-2 last:mb-0">
-                          <p className="text-xs text-primary">{role.title}</p>
-                          <p className="text-xs text-muted-foreground">
-                            {role.period}
-                          </p>
-                        </div>
-                      ))}
+                      <div className="space-y-3">
+                        {org.roles.map((role, roleIndex) => (
+                          <div
+                            key={roleIndex}
+                            className="border border-primary/30 rounded-lg p-3 hover:border-primary transition-colors duration-200"
+                          >
+                            <p className="text-sm font-medium text-primary">
+                              {role.title}
+                            </p>
+                            <p className="text-xs text-muted-foreground mt-1">
+                              {role.period}
+                            </p>
+                          </div>
+                        ))}
+                      </div>
                     </div>
                   </div>
                 ))}
@@ -461,87 +523,102 @@ export default function App() {
           </Card>
 
           {/* top Projects Card */}
-          <Card className="col-span-full bg-card border border-border">
+          <Card className="col-span-full bg-card border border-border hover:shadow-lg transition-shadow duration-300">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-xl text-foreground flex items-center">
-                <span className="w-1 h-8 bg-primary mr-3"></span>Top Projects
+                <span className="w-1 h-8 bg-primary mr-3"></span>
+                <span className="bg-gradient-to-r from-primary to-primary/60 text-transparent bg-clip-text">
+                  Top Projects
+                </span>
               </CardTitle>
-              <Button variant="link" className="text-primary text-sm">
-                View All <ChevronRight className="ml-1 h-4 w-4" />
+              <Button variant="link" className="text-primary text-sm" asChild>
+                <Link href="/projects">
+                  View All <ChevronRight className="ml-1 h-4 w-4" />
+                </Link>
               </Button>
             </CardHeader>
             <CardContent>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {recentProjects.map((project, index) => (
-                  <div key={index} className="flex flex-col h-full">
-                    <div className="relative aspect-video mb-4 overflow-hidden rounded-lg">
-                      <Image
-                        src={project.image || "/placeholder.svg"}
-                        alt={`Preview of ${project.name}`}
-                        layout="fill"
-                        objectFit="cover"
-                        className="transition-transform duration-300 hover:scale-105"
-                        loading="lazy"
-                        placeholder="blur"
-                        blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDABQODxIPDRQSEBIXFRQdHx4dHRsdHR4dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR3/2wBDAR4SEhwYHDIYGDIdHRkyLR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR3/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAb/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
-                        quality={90}
-                      />
-                      <div className="absolute top-2 right-2">
-                        {project.type === "web" && (
-                          <Globe className="h-6 w-6 text-background bg-primary rounded-full p-1" />
+                {recentProjects
+                  .filter((project) =>
+                    ["Libratech", "Codiphy", "Iskolar ng Bayan"].includes(
+                      project.name
+                    )
+                  )
+                  .map((project, index) => (
+                    <div key={index} className="flex flex-col h-full">
+                      <div className="relative aspect-video mb-4 overflow-hidden rounded-lg">
+                        <Image
+                          src={project.image || "/placeholder.svg"}
+                          alt={`Preview of ${project.name}`}
+                          layout="fill"
+                          objectFit="cover"
+                          className="transition-transform duration-300 hover:scale-105"
+                          loading="lazy"
+                          placeholder="blur"
+                          blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDABQODxIPDRQSEBIXFRQdHx4dHRsdHR4dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR3/2wBDAR4SEhwYHDIYGDIdHRkyLR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR3/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAb/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
+                          quality={90}
+                        />
+                        <div className="absolute top-2 right-2">
+                          {project.type === "web" && (
+                            <Globe className="h-6 w-6 text-background bg-primary rounded-full p-1" />
+                          )}
+                          {project.type === "mobile" && (
+                            <Smartphone className="h-6 w-6 text-background bg-primary rounded-full p-1" />
+                          )}
+                          {project.type === "desktop" && (
+                            <Monitor className="h-6 w-6 text-background bg-primary rounded-full p-1" />
+                          )}
+                        </div>
+                      </div>
+                      <h3 className="font-semibold text-base text-foreground mb-2">
+                        {project.name}
+                      </h3>
+                      <p className="text-xs text-muted-foreground mb-4 flex-grow">
+                        {project.description
+                          .split(". ")
+                          .slice(0, showFullDescription ? undefined : 2)
+                          .join(". ")}
+                        {project.description.split(". ").length > 2 && (
+                          <>
+                            .{" "}
+                            <button
+                              className="text-primary hover:underline"
+                              onClick={() =>
+                                setShowFullDescription(!showFullDescription)
+                              }
+                            >
+                              {showFullDescription ? "See less" : "See more"}
+                            </button>
+                          </>
                         )}
-                        {project.type === "mobile" && (
-                          <Smartphone className="h-6 w-6 text-background bg-primary rounded-full p-1" />
-                        )}
-                        {project.type === "desktop" && (
-                          <Monitor className="h-6 w-6 text-background bg-primary rounded-full p-1" />
-                        )}
+                      </p>
+                      <div className="flex flex-wrap gap-2 mb-4">
+                        {project.technologies.map((tech) => (
+                          <Badge
+                            key={tech}
+                            variant="outline"
+                            className="text-xs"
+                          >
+                            {tech}
+                          </Badge>
+                        ))}
+                      </div>
+                      <div className="flex items-center justify-between mt-auto">
+                        <a
+                          href={project.link}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-primary hover:underline flex items-center text-xs"
+                        >
+                          View Project <ExternalLink className="ml-1 h-4 w-4" />
+                        </a>
+                        <span className="text-xs text-muted-foreground">
+                          {project.date}
+                        </span>
                       </div>
                     </div>
-                    <h3 className="font-semibold text-base text-foreground mb-2">
-                      {project.name}
-                    </h3>
-                    <p className="text-xs text-muted-foreground mb-4 flex-grow">
-                      {project.description
-                        .split(". ")
-                        .slice(0, showFullDescription ? undefined : 2)
-                        .join(". ")}
-                      {project.description.split(". ").length > 2 && (
-                        <>
-                          .{" "}
-                          <button
-                            className="text-primary hover:underline"
-                            onClick={() =>
-                              setShowFullDescription(!showFullDescription)
-                            }
-                          >
-                            {showFullDescription ? "See less" : "See more"}
-                          </button>
-                        </>
-                      )}
-                    </p>
-                    <div className="flex flex-wrap gap-2 mb-4">
-                      {project.technologies.map((tech) => (
-                        <Badge key={tech} variant="outline" className="text-xs">
-                          {tech}
-                        </Badge>
-                      ))}
-                    </div>
-                    <div className="flex items-center justify-between mt-auto">
-                      <a
-                        href={project.link}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-primary hover:underline flex items-center text-xs"
-                      >
-                        View Project <ExternalLink className="ml-1 h-4 w-4" />
-                      </a>
-                      <span className="text-xs text-muted-foreground">
-                        {project.date}
-                      </span>
-                    </div>
-                  </div>
-                ))}
+                  ))}
               </div>
             </CardContent>
           </Card>
@@ -550,69 +627,121 @@ export default function App() {
           <Card className="col-span-full md:col-span-1 bg-card border border-border">
             <CardHeader className="pb-2">
               <CardTitle className="text-xl text-foreground flex items-center">
-                <span className="w-1 h-8 bg-primary mr-3"></span>Testimonials
+                <span className="w-1 h-8 bg-primary mr-3"></span>
+                <span className="bg-gradient-to-r from-primary to-primary/60 text-transparent bg-clip-text">
+                  Testimonials
+                </span>
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <blockquote className="border-l-4 border-primary pl-4 italic text-sm text-muted-foreground">
-                "Dexter has been a great help throughout our research. His
-                skills and talent in app developing really help us through. He's
-                been very patient, hands-on, and active on his work. The quality
-                of work is excellent, highly recommended!"
-                <footer className="text-right mt-2 text-primary text-xs">
-                  - Ellen Rose G. Sodoso, Bachelor of Secondary Education major
-                  in Science (BSEd Science)
-                </footer>
-              </blockquote>
+              <div className="relative">
+                <div className="overflow-hidden">
+                  <div
+                    className="flex transition-transform duration-500 ease-in-out"
+                    style={{ transform: `translateX(-${currentSlide * 100}%)` }}
+                  >
+                    {testimonials.map((testimonial, index) => (
+                      <blockquote
+                        key={index}
+                        className="flex-shrink-0 w-full border-l-4 border-primary pl-4 italic text-sm text-muted-foreground"
+                      >
+                        {testimonial.text}
+                        <footer className="text-right mt-2 text-primary text-xs">
+                          - {testimonial.author}, {testimonial.role}
+                        </footer>
+                      </blockquote>
+                    ))}
+                  </div>
+                </div>
+                <button
+                  onClick={() =>
+                    setCurrentSlide((prev) =>
+                      prev === 0 ? testimonials.length - 1 : prev - 1
+                    )
+                  }
+                  className="absolute left-0 top-1/2 transform -translate-y-1/2 bg-primary/10 hover:bg-primary/20 p-2 rounded-full"
+                >
+                  <ChevronLeft className="h-6 w-6 text-primary" />
+                </button>
+                <button
+                  onClick={() =>
+                    setCurrentSlide((prev) =>
+                      prev === testimonials.length - 1 ? 0 : prev + 1
+                    )
+                  }
+                  className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-primary/10 hover:bg-primary/20 p-2 rounded-full"
+                >
+                  <ChevronRight className="h-6 w-6 text-primary" />
+                </button>
+                <div className="flex justify-center mt-4 gap-2">
+                  {[0, 1].map((index) => (
+                    <button
+                      key={index}
+                      onClick={() => setCurrentSlide(index)}
+                      className={`w-2 h-2 rounded-full transition-colors ${
+                        currentSlide === index
+                          ? "bg-primary"
+                          : "bg-primary/50 hover:bg-primary"
+                      }`}
+                    ></button>
+                  ))}
+                </div>
+              </div>
             </CardContent>
           </Card>
 
           {/* Connect Card */}
-          <Card className="col-span-full md:col-span-1 bg-card border border-border">
+          <Card className="col-span-full md:col-span-1 bg-card border border-border hover:shadow-lg transition-shadow duration-300">
             <CardHeader className="pb-2">
               <CardTitle className="text-xl text-foreground flex items-center">
-                <span className="w-1 h-8 bg-primary mr-3"></span>Connect
+                <span className="w-1 h-8 bg-primary mr-3 rounded-full"></span>
+                <span className="bg-gradient-to-r from-primary to-primary/60 text-transparent bg-clip-text">
+                  Connect
+                </span>
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="flex justify-center space-x-4">
+              <div className="flex flex-col space-y-4">
                 <a
                   href="https://github.com/ddextroo"
                   target="_blank"
                   rel="noopener noreferrer"
+                  className="group"
                 >
                   <Button
                     variant="outline"
-                    size="icon"
-                    className="rounded-full text-primary hover:bg-primary/10"
+                    className="w-full flex items-center justify-start space-x-3 py-6 text-primary hover:bg-primary/10 hover:border-primary transition-all duration-300"
                   >
-                    <Github className="h-5 w-5" />
+                    <Github className="h-5 w-5 group-hover:scale-110 transition-transform duration-300" />
+                    <span className="font-medium">Follow on GitHub</span>
                   </Button>
                 </a>
                 <a
                   href="https://www.linkedin.com/in/dexter-inguito-b039a827b/"
                   target="_blank"
                   rel="noopener noreferrer"
+                  className="group"
                 >
                   <Button
                     variant="outline"
-                    size="icon"
-                    className="rounded-full text-primary hover:bg-primary/10"
+                    className="w-full flex items-center justify-start space-x-3 py-6 text-primary hover:bg-primary/10 hover:border-primary transition-all duration-300"
                   >
-                    <Linkedin className="h-5 w-5" />
+                    <Linkedin className="h-5 w-5 group-hover:scale-110 transition-transform duration-300" />
+                    <span className="font-medium">Connect on LinkedIn</span>
                   </Button>
                 </a>
                 <a
                   href="https://www.facebook.com/dexter.inguito.7"
                   target="_blank"
                   rel="noopener noreferrer"
+                  className="group"
                 >
                   <Button
                     variant="outline"
-                    size="icon"
-                    className="rounded-full text-primary hover:bg-primary/10"
+                    className="w-full flex items-center justify-start space-x-3 py-6 text-primary hover:bg-primary/10 hover:border-primary transition-all duration-300"
                   >
-                    <Facebook className="h-5 w-5" />
+                    <Facebook className="h-5 w-5 group-hover:scale-110 transition-transform duration-300" />
+                    <span className="font-medium">Find me on Facebook</span>
                   </Button>
                 </a>
               </div>
