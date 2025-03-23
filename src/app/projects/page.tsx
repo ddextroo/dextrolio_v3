@@ -84,14 +84,16 @@ const Projects = () => {
             ))}
           </div>
           <div className="flex items-center justify-between mt-auto">
-            <a
-              href={project.link}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-primary hover:underline flex items-center text-xs"
-            >
-              View Project <ExternalLink className="ml-1 h-4 w-4" />
-            </a>
+            {project.link && (
+              <a
+                href={project.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-primary hover:underline flex items-center text-xs"
+              >
+                View Project <ExternalLink className="ml-1 h-4 w-4" />
+              </a>
+            )}
             <span className="text-xs text-muted-foreground">
               {project.date}
             </span>
