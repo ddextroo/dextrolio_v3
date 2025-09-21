@@ -23,7 +23,7 @@ export const metadata: Metadata = {
   openGraph: {
     images: [
       {
-        url: "/assets/me.jpg", // Your OpenGraph image path
+        url: "/assets/me2.jpg", // Your OpenGraph image path
         width: 1200,
         height: 630,
         alt: "Dexter G. Inguito",
@@ -32,7 +32,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    images: ["/assets/me.jpg"], // Your Twitter card image path
+    images: ["/assets/me2.jpg"], // Your Twitter card image path
   },
 };
 
