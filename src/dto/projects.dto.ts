@@ -437,4 +437,24 @@ export const recentProjects = [
     type: "mobile",
     technologies: ["Java", "XML", "Firebase"],
   },
+  {
+    name: "Prezstige",
+    description:
+      "Prezstige is a loyalty management platform that helps MSMEs in the Philippines skyrocket their sales through effective loyalty programs. Prezstige offers digital and physical loyalty cards — including paper, QR, and NFC-powered options — tailored for our partner merchants.",
+    image: "/assets/projects/prezstige_web.png",
+    link: "https://prezstige.com/",
+    date: "n/a",
+    type: "mobile",
+    technologies: ["Next.js", "React Native", "Expo", "Supabase", "Typescript", "Shadcn", "TailwindCSS"],
+  },
+  {
+    name: "BarangMI",
+    description:
+      "BarangMI for the future. Streamline barangay operations with AI, multi-tenancy, configurable features, and a centralized platform to manage your community.",
+    image: "/assets/projects/barangmi_web.png",
+    link: "https://barangmi.com/",
+    date: "n/a",
+    type: "web",
+    technologies: ["React", "TailwindCSS", "PostgreSQL", "Typescript", "Shadcn", "Laravel", "JWT", "Spatie", "PHP", "React Native", "Expo", "Python", "Flask", "NX Monorepo", "Vite", "Node JS", "SMTP"],
+  },
 ];

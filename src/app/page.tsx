@@ -107,9 +107,20 @@ export default function App() {
                 quality={100}
               />
               <div className="sm:text-center flex flex-col items-center sm:items-start">
-                <h1 className="text-2xl font-bold mb-2 text-foreground">
+               <div className="flex items-center gap-2 mb-2 justify-center">
+                <h1 className="text-2xl font-bold text-foreground flex items-center">
                   Dexter G. Inguito
+                  <span className="ml-2 flex items-center">
+                    <Image
+                      src="/assets/verified.png"
+                      alt="verified"
+                      width={20}
+                      height={20}
+                      className="inline-block align-middle"
+                    />
+                  </span>
                 </h1>
+               </div>
                 <div className="flex items-center gap-2 mb-2 sm:justify-center">
                   <Badge
                     variant="secondary"
@@ -281,11 +292,10 @@ export default function App() {
                           <Badge
                             key={tech}
                             variant="outline"
-                            className={`transition-colors duration-200 text-xs ${
-                              isMainTech
+                            className={`transition-colors duration-200 text-xs ${isMainTech
                                 ? "dark:bg-primary/20 dark:border-primary dark:text-primary bg-primary text-primary-foreground font-semibold"
                                 : ""
-                            }`}
+                              }`}
                           >
                             {tech}
                           </Badge>
@@ -312,11 +322,18 @@ export default function App() {
               <div className="space-y-6">
                 {[
                   {
+                    role: "Chief Technology Officer",
+                    company: "Prezstige",
+                    period: "July 2025 - Present",
+                    description:
+                      "Driving the end-to-end development of web and mobile solutions that empower Filipino MSMEs to scale. Defining the platform’s architecture and leading the design of scalable, reliable systems.",
+                  },
+                  {
                     role: "Mobile App Developer and Web Developer",
                     company: "Freelancer",
                     period: "2020 - Present",
                     description:
-                      "Building custom mobile and web solutions for clients",
+                      "Delivering tailored web and mobile solutions for clients, from architecture to deployment, ensuring scalable and impactful results.",
                   },
                   {
                     role: "Full Stack Developer",
@@ -332,15 +349,28 @@ export default function App() {
                     description:
                       "Led product development and technical team management",
                   },
+                  {
+                    role: "BS Information Technology",
+                    company: "Cebu Technological University - Main Campus",
+                    period: "2021 - 2026",
+                    description:
+                      "4th yr undergrad student",
+                  },
+                  {
+                    role: "Hello World! 👋🏻",
+                    company: "",
+                    period: "2017",
+                    description:
+                      "Wrote my first line of code",
+                  },
                 ].map((job, index) => (
                   <div key={index} className="flex group">
                     <div className="flex flex-col items-center mr-4">
                       <div
-                        className={`w-3 h-3 border-2 border-primary rounded-full transition-all duration-300 group-hover:scale-125 ${
-                          index === 0
+                        className={`w-3 h-3 border-2 border-primary rounded-full transition-all duration-300 group-hover:scale-125 ${index === 0
                             ? "bg-primary"
                             : "bg-card group-hover:bg-primary/50"
-                        }`}
+                          }`}
                       ></div>
                       {index !== 2 && (
                         <div className="w-0.5 flex-grow bg-primary/50 mt-1"></div>
@@ -395,11 +425,10 @@ export default function App() {
                   <div key={index} className="flex group">
                     <div className="flex flex-col items-center mr-4">
                       <div
-                        className={`w-3 h-3 border-2 border-primary rounded-full transition-all duration-300 group-hover:scale-125 ${
-                          index === 0
+                        className={`w-3 h-3 border-2 border-primary rounded-full transition-all duration-300 group-hover:scale-125 ${index === 0
                             ? "bg-primary"
                             : "bg-card group-hover:bg-primary/50"
-                        }`}
+                          }`}
                       ></div>
                       {index !== 1 && (
                         <div className="w-0.5 flex-grow bg-primary/50 mt-1"></div>
@@ -481,8 +510,12 @@ export default function App() {
                     org: "Google Developer Groups on Campus - Cebu Technological University - Main Campus",
                     roles: [
                       {
+                        title: "Mobile Development Lead",
+                        period: "July 2025 - Present",
+                      },
+                      {
                         title: "Chief Technology Officer",
-                        period: "August 2024 - Present",
+                        period: "August 2024 - June 2025",
                       },
                       {
                         title: "Mobile Development Lead",
@@ -518,6 +551,131 @@ export default function App() {
                     </div>
                   </div>
                 ))}
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Current Startup Project Card */}
+          <Card className="col-span-full bg-card border border-border hover:shadow-lg transition-shadow duration-300">
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-xl text-foreground flex items-center">
+                <span className="w-1 h-8 bg-primary mr-3"></span>
+                <span className="bg-gradient-to-r from-primary to-primary/60 text-transparent bg-clip-text">
+                  Current Startup Project
+                </span>
+              </CardTitle>
+              <Badge variant="secondary" className="bg-yellow-100 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-400">
+                Featured
+              </Badge>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div className="space-y-4">
+                  <h3 className="text-2xl font-bold text-foreground">Prezstige</h3>
+                  <p className="text-sm text-muted-foreground leading-relaxed">
+                    Prezstige is a loyalty management platform that
+                    helps MSMEs in the Philippines skyrocket their
+                    sales through effective loyalty programs. Prezstige offers digital and physical loyalty
+                    cards — including paper, QR, and NFC-powered
+                    options — tailored for our partner merchants.
+                  </p>
+                  <div className="flex flex-wrap gap-2">
+                    <Badge variant="outline" className="text-xs">Next.js</Badge>
+                    <Badge variant="outline" className="text-xs">React Native</Badge>
+                    <Badge variant="outline" className="text-xs">Expo</Badge>
+                    <Badge variant="outline" className="text-xs">Supabase</Badge>
+                    <Badge variant="outline" className="text-xs">Typescript</Badge>
+                    <Badge variant="outline" className="text-xs">Shadcn</Badge>
+                    <Badge variant="outline" className="text-xs">TailwindCSS</Badge>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <a
+                      href="https://prezstige.com/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <Button className="bg-primary text-primary-foreground hover:bg-primary/90">
+                        View Project <ExternalLink className="ml-2 h-4 w-4" />
+                      </Button>
+                    </a>
+                    <span className="text-xs text-muted-foreground">March 2025</span>
+                  </div>
+                </div>
+                <div className="relative aspect-video overflow-hidden rounded-lg">
+                  <Image
+                    src="/assets/projects/prezstige_web.png"
+                    alt="Prezstige"
+                    layout="fill"
+                    objectFit="cover"
+                    className="transition-transform duration-300 hover:scale-105"
+                    loading="lazy"
+                    placeholder="blur"
+                    blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDABQODxIPDRQSEBIXFRQdHx4dHRsdHR4dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR3/2wBDAR4SEhwYHDIYGDIdHRkyLR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR3/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAb/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
+                    quality={90}
+                  />
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Capstone Project Card */}
+          <Card className="col-span-full bg-card border border-border hover:shadow-lg transition-shadow duration-300">
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-xl text-foreground flex items-center">
+                <span className="w-1 h-8 bg-primary mr-3"></span>
+                <span className="bg-gradient-to-r from-primary to-primary/60 text-transparent bg-clip-text">
+                  Capstone Project
+                </span>
+              </CardTitle>
+              <Badge variant="secondary" className="bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400">
+                Academic
+              </Badge>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div className="space-y-4">
+                  <h3 className="text-2xl font-bold text-foreground">BarangMI</h3>
+                  <p className="text-sm text-muted-foreground leading-relaxed">
+                  BarangMI for the future. Streamline barangay operations with AI, multi-tenancy, configurable features, and a centralized platform to manage your community.                  </p>
+                  <div className="flex flex-wrap gap-2">
+                    <Badge variant="outline" className="text-xs">React</Badge>
+                    <Badge variant="outline" className="text-xs">TailwindCSS</Badge>
+                    <Badge variant="outline" className="text-xs">PostgreSQL</Badge>
+                    <Badge variant="outline" className="text-xs">Typescript</Badge>
+                    <Badge variant="outline" className="text-xs">Shadcn</Badge>
+                    <Badge variant="outline" className="text-xs">Laravel</Badge>
+                    <Badge variant="outline" className="text-xs">JWT</Badge>
+                    <Badge variant="outline" className="text-xs">Spatie</Badge>
+                    <Badge variant="outline" className="text-xs">PHP</Badge>
+                    <Badge variant="outline" className="text-xs">React Native</Badge>
+                    <Badge variant="outline" className="text-xs">Expo</Badge>
+                    <Badge variant="outline" className="text-xs">Python</Badge>
+                    <Badge variant="outline" className="text-xs">Flask</Badge>
+                    <Badge variant="outline" className="text-xs">NX Monorepo</Badge>
+                    <Badge variant="outline" className="text-xs">Vite</Badge>
+                    <Badge variant="outline" className="text-xs">Node JS</Badge>
+                    <Badge variant="outline" className="text-xs">SMTP</Badge>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <Button className="bg-primary text-primary-foreground hover:bg-primary/90">
+                      View Project <ExternalLink className="ml-2 h-4 w-4" />
+                    </Button>
+                    <span className="text-xs text-muted-foreground">October 2025</span>
+                  </div>
+                </div>
+                <div className="relative aspect-video overflow-hidden rounded-lg">
+                  <Image
+                    src="/assets/projects/barangmi_web.png"
+                    alt="BarangMI"
+                    layout="fill"
+                    objectFit="cover"
+                    className="transition-transform duration-300 hover:scale-105"
+                    loading="lazy"
+                    placeholder="blur"
+                    blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDABQODxIPDRQSEBIXFRQdHx4dHRsdHR4dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR3/2wBDAR4SEhwYHDIYGDIdHRkyLR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR3/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAb/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
+                    quality={90}
+                  />
+                </div>
               </div>
             </CardContent>
           </Card>
@@ -678,11 +836,10 @@ export default function App() {
                     <button
                       key={index}
                       onClick={() => setCurrentSlide(index)}
-                      className={`w-2 h-2 rounded-full transition-colors ${
-                        currentSlide === index
+                      className={`w-2 h-2 rounded-full transition-colors ${currentSlide === index
                           ? "bg-primary"
                           : "bg-primary/50 hover:bg-primary"
-                      }`}
+                        }`}
                     ></button>
                   ))}
                 </div>
