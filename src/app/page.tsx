@@ -657,9 +657,15 @@ export default function App() {
                     <Badge variant="outline" className="text-xs">SMTP</Badge>
                   </div>
                   <div className="flex items-center justify-between">
-                    <Button className="bg-primary text-primary-foreground hover:bg-primary/90">
-                      View Project <ExternalLink className="ml-2 h-4 w-4" />
-                    </Button>
+                    <a
+                      href="https://kalunasan.barangmi.systems"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <Button className="bg-primary text-primary-foreground hover:bg-primary/90">
+                        View Project <ExternalLink className="ml-2 h-4 w-4" />
+                      </Button>
+                    </a>
                     <span className="text-xs text-muted-foreground">October 2025</span>
                   </div>
                 </div>
