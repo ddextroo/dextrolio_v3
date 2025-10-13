@@ -21,7 +21,7 @@ export const metadata: Metadata = {
   description:
     "Portfolio of Dexter G. Inguito — building Prezstige and BarangMI. Explore top projects, tech stack, testimonials, and ways to connect.",
   metadataBase: new URL("https://dextrolio.tech"),
-  alternates: { canonical: "/" },
+  alternates: { canonical: "https://dextrolio.tech" },
   icons: { icon: "/favicon.ico" },
   openGraph: {
     type: "website",
