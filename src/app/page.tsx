@@ -170,14 +170,6 @@ export default function App() {
                   <Mail className="mr-2 h-4 w-4" /> Send Email
                 </Button>
               </a>
-              <a href="#top-projects" className="w-full sm:w-auto">
-                <Button
-                  variant="outline"
-                  className="w-full text-primary hover:bg-primary/10 px-6 py-2 text-sm font-medium"
-                >
-                  <ChevronRight className="mr-2 h-4 w-4" /> Top Projects
-                </Button>
-              </a>
             </div>
           </div>
         </div>
