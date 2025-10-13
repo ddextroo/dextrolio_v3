@@ -7,6 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Switch } from "@/components/ui/switch";
 import { ThemeProvider } from "next-themes";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Calendar,
   Mail,
@@ -223,7 +224,7 @@ export default function App() {
           </Card>
 
           {/* About Card */}
-          <Card className="col-span-full lg:col-span-1 bg-card border border-border hover:shadow-lg transition-shadow duration-300">
+          <Card className="col-span-full bg-card border border-border hover:shadow-lg transition-shadow duration-300">
             <CardHeader className="pb-2">
               <CardTitle className="text-xl text-foreground flex items-center">
                 <span className="w-1 h-8 bg-primary mr-3"></span>
@@ -253,49 +254,175 @@ export default function App() {
             </CardContent>
           </Card>
 
-          {/* Tech Stack Card */}
-          <Card className="col-span-full md:col-span-1 bg-card border border-border hover:shadow-lg transition-shadow duration-300">
+          
+
+          {/* Experience & Achievements + Tech Stack Row */}
+          <div className="col-span-full grid grid-cols-1 md:grid-cols-3 gap-4">
+          {/* Experience & Achievements */}
+          <Card className="md:col-span-2 bg-card border border-border hover:shadow-lg transition-shadow duration-300">
+            <CardHeader className="pb-2">
+              <CardTitle className="text-xl text-foreground flex items-center">
+                <span className="w-1 h-8 bg-primary mr-3 rounded-full"></span>
+                <span className="bg-gradient-to-r from-primary to-primary/60 text-transparent bg-clip-text">Experience & Achievements</span>
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="pt-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {/* Experience */}
+                <div className="space-y-6">
+                  <h3 className="text-sm font-semibold text-foreground">Experience</h3>
+                  {[
+                    {
+                      role: "Chief Technology Officer",
+                      company: "Prezstige",
+                      period: "July 2025 - Present",
+                      description:
+                        "Driving the end-to-end development of web and mobile solutions that empower Filipino MSMEs to scale. Defining the platform’s architecture and leading the design of scalable, reliable systems.",
+                    },
+                    {
+                      role: "Mobile App Developer and Web Developer",
+                      company: "Freelancer",
+                      period: "2020 - Present",
+                      description:
+                        "Delivering tailored web and mobile solutions for clients, from architecture to deployment, ensuring scalable and impactful results.",
+                    },
+                    {
+                      role: "Full Stack Developer",
+                      company: "Ultima Reviewer",
+                      period: "2021 - 2024",
+                      description:
+                        "Developing full-stack applications and managing technical infrastructure",
+                    },
+                    {
+                      role: "Product Lead Developer",
+                      company: "Unirises",
+                      period: "2020 - 2021",
+                      description:
+                        "Led product development and technical team management",
+                    },
+                    {
+                      role: "BS Information Technology",
+                      company: "Cebu Technological University - Main Campus",
+                      period: "2021 - 2026",
+                      description:
+                        "4th yr undergrad student",
+                    },
+                    {
+                      role: "Hello World! 👋🏻",
+                      company: "",
+                      period: "2017",
+                      description:
+                        "Wrote my first line of code",
+                    },
+                  ].map((job, index) => (
+                    <div key={index} className="flex group">
+                      <div className="flex flex-col items-center mr-4">
+                        <div
+                          className={`w-3 h-3 border-2 border-primary rounded-full transition-all duration-300 group-hover:scale-125 ${index === 0
+                              ? "bg-primary"
+                              : "bg-card group-hover:bg-primary/50"
+                            }`}
+                        ></div>
+                        {index !== 2 && (
+                          <div className="w-0.5 flex-grow bg-primary/50 mt-1"></div>
+                        )}
+                      </div>
+                      <div className="flex-1 -mt-1">
+                        <div className="bg-card hover:bg-muted/50 p-3 rounded-lg transition-colors duration-200">
+                          <h3 className="font-semibold text-sm text-foreground">
+                            {job.role}
+                          </h3>
+                          <p className="text-sm text-primary font-medium">
+                            {job.company}
+                          </p>
+                          <p className="text-xs text-muted-foreground mb-2">
+                            {job.period}
+                          </p>
+                          <p className="text-xs text-muted-foreground">
+                            {job.description}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Achievements */}
+                <div className="space-y-4">
+                  <h3 className="text-sm font-semibold text-foreground">Achievements</h3>
+                  {[
+                    {
+                      title: "2nd Place",
+                      description: "Product Innovation and Research Summit",
+                      date: "December 13, 2024",
+                    },
+                    {
+                      title: "2nd Runner Up",
+                      description: "Hack4Gov 3",
+                      date: "July 21, 2024",
+                    },
+                  ].map((achievement, index) => (
+                    <div key={index} className="flex group">
+                      <div className="flex flex-col items-center mr-4">
+                        <div
+                          className={`w-3 h-3 border-2 border-primary rounded-full transition-all duration-300 group-hover:scale-125 ${index === 0
+                              ? "bg-primary"
+                              : "bg-card group-hover:bg-primary/50"
+                            }`}
+                        ></div>
+                        {index !== 1 && (
+                          <div className="w-0.5 flex-grow bg-primary/50 mt-1"></div>
+                        )}
+                      </div>
+                      <div className="flex-1 -mt-1">
+                        <div className="bg-card hover:bg-muted/50 p-3 rounded-lg transition-colors duration-200">
+                          <h3 className="font-semibold text-sm text-foreground">
+                            {achievement.title}
+                          </h3>
+                          <p className="text-sm text-muted-foreground">
+                            {achievement.description}
+                          </p>
+                          <p className="text-xs text-primary mt-1">
+                            {achievement.date}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Tech Stack */}
+          <Card className="md:col-span-1 bg-card border border-border hover:shadow-lg transition-shadow duration-300">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-xl text-foreground flex items-center">
                 <span className="w-1 h-8 bg-primary mr-3"></span>
-                <span className="bg-gradient-to-r from-primary to-primary/60 text-transparent bg-clip-text">
-                  Tech Stack
-                </span>
+                <span className="bg-gradient-to-r from-primary to-primary/60 text-transparent bg-clip-text">Tech Stack</span>
               </CardTitle>
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
                 {techStack.map((category, index) => (
                   <div key={index}>
-                    <h3 className="font-semibold mb-2 text-xs text-foreground">
-                      {category.category}
-                    </h3>
+                    <h3 className="font-semibold mb-2 text-xs text-foreground">{category.category}</h3>
                     <div className="flex flex-wrap gap-2">
                       {category.techs.map((tech) => {
                         const isMainTech =
-                          (category.category === "Frontend" &&
-                            tech === "React") ||
-                          (category.category === "Backend" &&
-                            tech === "Laravel") ||
-                          (category.category === "Database" &&
-                            tech === "PostgreSQL") ||
-                          (category.category === "Desktop" &&
-                            tech === "Java Swing") ||
-                          (category.category === "AI & Machine Learning" &&
-                            tech === "Tensorflow") ||
-                          (category.category === "Mobile" &&
-                            (tech === "Flutter" || tech === "Android")) ||
-                          (category.category === "Developer Tools" &&
-                            (tech === "Github" || tech === "VS Code"));
+                          (category.category === "Frontend" && tech === "React") ||
+                          (category.category === "Backend" && tech === "Laravel") ||
+                          (category.category === "Database" && tech === "PostgreSQL") ||
+                          (category.category === "Desktop" && tech === "Java Swing") ||
+                          (category.category === "AI & Machine Learning" && tech === "Tensorflow") ||
+                          (category.category === "Mobile" && (tech === "Flutter" || tech === "Android")) ||
+                          (category.category === "Developer Tools" && (tech === "Github" || tech === "VS Code"));
 
                         return (
                           <Badge
                             key={tech}
                             variant="outline"
-                            className={`transition-colors duration-200 text-xs ${isMainTech
-                                ? "dark:bg-primary/20 dark:border-primary dark:text-primary bg-primary text-primary-foreground font-semibold"
-                                : ""
-                              }`}
+                            className={`transition-colors duration-200 text-xs ${isMainTech ? "dark:bg-primary/20 dark:border-primary dark:text-primary bg-primary text-primary-foreground font-semibold" : ""}`}
                           >
                             {tech}
                           </Badge>
@@ -307,151 +434,7 @@ export default function App() {
               </div>
             </CardContent>
           </Card>
-
-          {/* Experience Card */}
-          <Card className="col-span-full md:col-span-1 lg:col-span-1 bg-card border border-border hover:shadow-lg transition-shadow duration-300">
-            <CardHeader className="pb-2">
-              <CardTitle className="text-xl text-foreground flex items-center">
-                <span className="w-1 h-8 bg-primary mr-3 rounded-full"></span>
-                <span className="bg-gradient-to-r from-primary to-primary/60 text-transparent bg-clip-text">
-                  Experience
-                </span>
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="pt-4">
-              <div className="space-y-6">
-                {[
-                  {
-                    role: "Chief Technology Officer",
-                    company: "Prezstige",
-                    period: "July 2025 - Present",
-                    description:
-                      "Driving the end-to-end development of web and mobile solutions that empower Filipino MSMEs to scale. Defining the platform’s architecture and leading the design of scalable, reliable systems.",
-                  },
-                  {
-                    role: "Mobile App Developer and Web Developer",
-                    company: "Freelancer",
-                    period: "2020 - Present",
-                    description:
-                      "Delivering tailored web and mobile solutions for clients, from architecture to deployment, ensuring scalable and impactful results.",
-                  },
-                  {
-                    role: "Full Stack Developer",
-                    company: "Ultima Reviewer",
-                    period: "2021 - 2024",
-                    description:
-                      "Developing full-stack applications and managing technical infrastructure",
-                  },
-                  {
-                    role: "Product Lead Developer",
-                    company: "Unirises",
-                    period: "2020 - 2021",
-                    description:
-                      "Led product development and technical team management",
-                  },
-                  {
-                    role: "BS Information Technology",
-                    company: "Cebu Technological University - Main Campus",
-                    period: "2021 - 2026",
-                    description:
-                      "4th yr undergrad student",
-                  },
-                  {
-                    role: "Hello World! 👋🏻",
-                    company: "",
-                    period: "2017",
-                    description:
-                      "Wrote my first line of code",
-                  },
-                ].map((job, index) => (
-                  <div key={index} className="flex group">
-                    <div className="flex flex-col items-center mr-4">
-                      <div
-                        className={`w-3 h-3 border-2 border-primary rounded-full transition-all duration-300 group-hover:scale-125 ${index === 0
-                            ? "bg-primary"
-                            : "bg-card group-hover:bg-primary/50"
-                          }`}
-                      ></div>
-                      {index !== 2 && (
-                        <div className="w-0.5 flex-grow bg-primary/50 mt-1"></div>
-                      )}
-                    </div>
-                    <div className="flex-1 -mt-1">
-                      <div className="bg-card hover:bg-muted/50 p-3 rounded-lg transition-colors duration-200">
-                        <h3 className="font-semibold text-sm text-foreground">
-                          {job.role}
-                        </h3>
-                        <p className="text-sm text-primary font-medium">
-                          {job.company}
-                        </p>
-                        <p className="text-xs text-muted-foreground mb-2">
-                          {job.period}
-                        </p>
-                        <p className="text-xs text-muted-foreground">
-                          {job.description}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Achievements Card */}
-          <Card className="col-span-full md:col-span-1 bg-card border border-border hover:shadow-lg transition-shadow duration-300">
-            <CardHeader className="pb-2">
-              <CardTitle className="text-xl text-foreground flex items-center">
-                <span className="w-1 h-8 bg-primary mr-3 rounded-full"></span>
-                <span className="bg-gradient-to-r from-primary to-primary/60 text-transparent bg-clip-text">
-                  Achievements
-                </span>
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="pt-4">
-              <div className="space-y-4">
-                {[
-                  {
-                    title: "2nd Place",
-                    description: "Product Innovation and Research Summit",
-                    date: "December 13, 2024",
-                  },
-                  {
-                    title: "2nd Runner Up",
-                    description: "Hack4Gov 3",
-                    date: "July 21, 2024",
-                  },
-                ].map((achievement, index) => (
-                  <div key={index} className="flex group">
-                    <div className="flex flex-col items-center mr-4">
-                      <div
-                        className={`w-3 h-3 border-2 border-primary rounded-full transition-all duration-300 group-hover:scale-125 ${index === 0
-                            ? "bg-primary"
-                            : "bg-card group-hover:bg-primary/50"
-                          }`}
-                      ></div>
-                      {index !== 1 && (
-                        <div className="w-0.5 flex-grow bg-primary/50 mt-1"></div>
-                      )}
-                    </div>
-                    <div className="flex-1 -mt-1">
-                      <div className="bg-card hover:bg-muted/50 p-3 rounded-lg transition-colors duration-200">
-                        <h3 className="font-semibold text-sm text-foreground">
-                          {achievement.title}
-                        </h3>
-                        <p className="text-sm text-muted-foreground">
-                          {achievement.description}
-                        </p>
-                        <p className="text-xs text-primary mt-1">
-                          {achievement.date}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
+          </div>
 
           {/* Freelancing Stats Card */}
           <Card className="col-span-full md:col-span-1 bg-card border border-border hover:shadow-lg transition-shadow duration-300">
@@ -555,144 +538,13 @@ export default function App() {
             </CardContent>
           </Card>
 
-          {/* Current Startup Project Card */}
-          <Card id="startup" className="col-span-full bg-card border border-border hover:shadow-lg transition-shadow duration-300">
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-xl text-foreground flex items-center">
-                <span className="w-1 h-8 bg-primary mr-3"></span>
-                <span className="bg-gradient-to-r from-primary to-primary/60 text-transparent bg-clip-text">
-                  Current Startup Project
-                </span>
-              </CardTitle>
-              <Badge variant="secondary" className="bg-yellow-100 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-400">
-                Featured
-              </Badge>
-            </CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                <div className="space-y-4">
-                  <h3 className="text-2xl font-bold text-foreground">Prezstige</h3>
-                  <p className="text-sm text-muted-foreground leading-relaxed">
-                    Prezstige is a loyalty management platform that
-                    helps MSMEs in the Philippines skyrocket their
-                    sales through effective loyalty programs. Prezstige offers digital and physical loyalty
-                    cards — including paper, QR, and NFC-powered
-                    options — tailored for our partner merchants.
-                  </p>
-                  <div className="flex flex-wrap gap-2">
-                    <Badge variant="outline" className="text-xs">Next.js</Badge>
-                    <Badge variant="outline" className="text-xs">React Native</Badge>
-                    <Badge variant="outline" className="text-xs">Expo</Badge>
-                    <Badge variant="outline" className="text-xs">Supabase</Badge>
-                    <Badge variant="outline" className="text-xs">Typescript</Badge>
-                    <Badge variant="outline" className="text-xs">Shadcn</Badge>
-                    <Badge variant="outline" className="text-xs">TailwindCSS</Badge>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <a
-                      href="https://prezstige.com/"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      <Button className="bg-primary text-primary-foreground hover:bg-primary/90">
-                        View Project <ExternalLink className="ml-2 h-4 w-4" />
-                      </Button>
-                    </a>
-                    <span className="text-xs text-muted-foreground">March 2025</span>
-                  </div>
-                </div>
-                <div className="relative aspect-video overflow-hidden rounded-lg">
-                  <Image
-                    src="/assets/projects/prezstige_web.png"
-                    alt="Prezstige"
-                    layout="fill"
-                    objectFit="cover"
-                    className="transition-transform duration-300 hover:scale-105"
-                    loading="lazy"
-                    placeholder="blur"
-                    blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDABQODxIPDRQSEBIXFRQdHx4dHRsdHR4dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR3/2wBDAR4SEhwYHDIYGDIdHRkyLR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR3/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAb/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
-                    quality={90}
-                  />
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Capstone Project Card */}
-          <Card id="capstone" className="col-span-full bg-card border border-border hover:shadow-lg transition-shadow duration-300">
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-xl text-foreground flex items-center">
-                <span className="w-1 h-8 bg-primary mr-3"></span>
-                <span className="bg-gradient-to-r from-primary to-primary/60 text-transparent bg-clip-text">
-                  Capstone Project
-                </span>
-              </CardTitle>
-              <Badge variant="secondary" className="bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400">
-                Academic
-              </Badge>
-            </CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                <div className="space-y-4">
-                  <h3 className="text-2xl font-bold text-foreground">BarangMI</h3>
-                  <p className="text-sm text-muted-foreground leading-relaxed">
-                  BarangMI for the future. Streamline barangay operations with AI, multi-tenancy, configurable features, and a centralized platform to manage your community.                  </p>
-                  <div className="flex flex-wrap gap-2">
-                    <Badge variant="outline" className="text-xs">React</Badge>
-                    <Badge variant="outline" className="text-xs">TailwindCSS</Badge>
-                    <Badge variant="outline" className="text-xs">PostgreSQL</Badge>
-                    <Badge variant="outline" className="text-xs">Typescript</Badge>
-                    <Badge variant="outline" className="text-xs">Shadcn</Badge>
-                    <Badge variant="outline" className="text-xs">Laravel</Badge>
-                    <Badge variant="outline" className="text-xs">JWT</Badge>
-                    <Badge variant="outline" className="text-xs">Spatie</Badge>
-                    <Badge variant="outline" className="text-xs">PHP</Badge>
-                    <Badge variant="outline" className="text-xs">React Native</Badge>
-                    <Badge variant="outline" className="text-xs">Expo</Badge>
-                    <Badge variant="outline" className="text-xs">Python</Badge>
-                    <Badge variant="outline" className="text-xs">Flask</Badge>
-                    <Badge variant="outline" className="text-xs">NX Monorepo</Badge>
-                    <Badge variant="outline" className="text-xs">Vite</Badge>
-                    <Badge variant="outline" className="text-xs">Node JS</Badge>
-                    <Badge variant="outline" className="text-xs">SMTP</Badge>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <a
-                      href="https://kalunasan.barangmi.systems"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      <Button className="bg-primary text-primary-foreground hover:bg-primary/90">
-                        View Project <ExternalLink className="ml-2 h-4 w-4" />
-                      </Button>
-                    </a>
-                    <span className="text-xs text-muted-foreground">October 2025</span>
-                  </div>
-                </div>
-                <div className="relative aspect-video overflow-hidden rounded-lg">
-                  <Image
-                    src="/assets/projects/barangmi_web.png"
-                    alt="BarangMI"
-                    layout="fill"
-                    objectFit="cover"
-                    className="transition-transform duration-300 hover:scale-105"
-                    loading="lazy"
-                    placeholder="blur"
-                    blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDABQODxIPDRQSEBIXFRQdHx4dHRsdHR4dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR3/2wBDAR4SEhwYHDIYGDIdHRkyLR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR3/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAb/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
-                    quality={90}
-                  />
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* top Projects Card */}
+          {/* Projects Section with Tabs */}
           <Card id="top-projects" className="col-span-full bg-card border border-border hover:shadow-lg transition-shadow duration-300">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-xl text-foreground flex items-center">
                 <span className="w-1 h-8 bg-primary mr-3"></span>
                 <span className="bg-gradient-to-r from-primary to-primary/60 text-transparent bg-clip-text">
-                  Top Projects
+                  Projects
                 </span>
               </CardTitle>
               <Button variant="link" className="text-primary text-sm" asChild>
@@ -702,88 +554,196 @@ export default function App() {
               </Button>
             </CardHeader>
             <CardContent>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {recentProjects
-                  .filter((project) =>
-                    ["Libratech", "Codiphy", "Iskolar ng Bayan"].includes(
-                      project.name
-                    )
-                  )
-                  .map((project, index) => (
-                    <div key={index} className="flex flex-col h-full">
-                      <div className="relative aspect-video mb-4 overflow-hidden rounded-lg">
-                        <Image
-                          src={project.image || "/placeholder.svg"}
-                          alt={`Preview of ${project.name}`}
-                          layout="fill"
-                          objectFit="cover"
-                          className="transition-transform duration-300 hover:scale-105"
-                          loading="lazy"
-                          placeholder="blur"
-                          blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDABQODxIPDRQSEBIXFRQdHx4dHRsdHR4dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR3/2wBDAR4SEhwYHDIYGDIdHRkyLR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR3/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAb/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
-                          quality={90}
-                        />
-                        <div className="absolute top-2 right-2">
-                          {project.type === "web" && (
-                            <Globe className="h-6 w-6 text-background bg-primary rounded-full p-1" />
-                          )}
-                          {project.type === "mobile" && (
-                            <Smartphone className="h-6 w-6 text-background bg-primary rounded-full p-1" />
-                          )}
-                          {project.type === "desktop" && (
-                            <Monitor className="h-6 w-6 text-background bg-primary rounded-full p-1" />
-                          )}
-                        </div>
-                      </div>
-                      <h3 className="font-semibold text-base text-foreground mb-2">
-                        {project.name}
-                      </h3>
-                      <p className="text-xs text-muted-foreground mb-4 flex-grow">
-                        {project.description
-                          .split(". ")
-                          .slice(0, showFullDescription ? undefined : 2)
-                          .join(". ")}
-                        {project.description.split(". ").length > 2 && (
-                          <>
-                            .{" "}
-                            <button
-                              className="text-primary hover:underline"
-                              onClick={() =>
-                                setShowFullDescription(!showFullDescription)
-                              }
+              <Tabs defaultValue="startup" className="w-full">
+                <TabsList className="mb-4">
+                  <TabsTrigger value="startup">Startup</TabsTrigger>
+                  <TabsTrigger value="capstone">Capstone</TabsTrigger>
+                  <TabsTrigger value="top">Top Projects</TabsTrigger>
+                </TabsList>
+
+                <TabsContent value="top">
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    {recentProjects
+                      .filter((project) =>
+                        ["Libratech", "Codiphy", "Iskolar ng Bayan"].includes(
+                          project.name
+                        )
+                      )
+                      .map((project, index) => (
+                        <div key={index} className="flex flex-col h-full">
+                          <div className="relative aspect-video mb-4 overflow-hidden rounded-lg">
+                            <Image
+                              src={project.image || "/placeholder.svg"}
+                              alt={`Preview of ${project.name}`}
+                              layout="fill"
+                              objectFit="cover"
+                              className="transition-transform duration-300 hover:scale-105"
+                              loading="lazy"
+                              placeholder="blur"
+                              blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDABQODxIPDRQSEBIXFRQdHx4dHRsdHR4dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR3/2wBDAR4SEhwYHDIYGDIdHRkyLR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR3/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAb/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
+                              quality={90}
+                            />
+                            <div className="absolute top-2 right-2">
+                              {project.type === "web" && (
+                                <Globe className="h-6 w-6 text-background bg-primary rounded-full p-1" />
+                              )}
+                              {project.type === "mobile" && (
+                                <Smartphone className="h-6 w-6 text-background bg-primary rounded-full p-1" />
+                              )}
+                              {project.type === "desktop" && (
+                                <Monitor className="h-6 w-6 text-background bg-primary rounded-full p-1" />
+                              )}
+                            </div>
+                          </div>
+                          <h3 className="font-semibold text-base text-foreground mb-2">
+                            {project.name}
+                          </h3>
+                          <p className="text-xs text-muted-foreground mb-4 flex-grow">
+                            {project.description
+                              .split(". ")
+                              .slice(0, showFullDescription ? undefined : 2)
+                              .join(". ")}
+                            {project.description.split(". ").length > 2 && (
+                              <>
+                                .{" "}
+                                <button
+                                  className="text-primary hover:underline"
+                                  onClick={() =>
+                                    setShowFullDescription(!showFullDescription)
+                                  }
+                                >
+                                  {showFullDescription ? "See less" : "See more"}
+                                </button>
+                              </>
+                            )}
+                          </p>
+                          <div className="flex flex-wrap gap-2 mb-4">
+                            {project.technologies.map((tech) => (
+                              <Badge
+                                key={tech}
+                                variant="outline"
+                                className="text-xs"
+                              >
+                                {tech}
+                              </Badge>
+                            ))}
+                          </div>
+                          <div className="flex items-center justify-between mt-auto">
+                            <a
+                              href={project.link}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-primary hover:underline flex items-center text-xs"
                             >
-                              {showFullDescription ? "See less" : "See more"}
-                            </button>
-                          </>
-                        )}
-                      </p>
-                      <div className="flex flex-wrap gap-2 mb-4">
-                        {project.technologies.map((tech) => (
-                          <Badge
-                            key={tech}
-                            variant="outline"
-                            className="text-xs"
-                          >
-                            {tech}
-                          </Badge>
-                        ))}
+                              View Project <ExternalLink className="ml-1 h-4 w-4" />
+                            </a>
+                            <span className="text-xs text-muted-foreground">
+                              {project.date}
+                            </span>
+                          </div>
+                        </div>
+                      ))}
+                  </div>
+                </TabsContent>
+
+                <TabsContent value="startup">
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div className="space-y-4">
+                      <div className="flex items-center justify-between">
+                        <h3 className="text-2xl font-bold text-foreground">Prezstige</h3>
+                        <Badge variant="secondary" className="bg-yellow-100 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-400">Featured</Badge>
                       </div>
-                      <div className="flex items-center justify-between mt-auto">
-                        <a
-                          href={project.link}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-primary hover:underline flex items-center text-xs"
-                        >
-                          View Project <ExternalLink className="ml-1 h-4 w-4" />
+                      <p className="text-sm text-muted-foreground leading-relaxed">
+                        Prezstige is a loyalty management platform that helps MSMEs in the Philippines skyrocket their sales through effective loyalty programs. Prezstige offers digital and physical loyalty cards — including paper, QR, and NFC-powered options — tailored for our partner merchants.
+                      </p>
+                      <div className="flex flex-wrap gap-2">
+                        <Badge variant="outline" className="text-xs">Next.js</Badge>
+                        <Badge variant="outline" className="text-xs">React Native</Badge>
+                        <Badge variant="outline" className="text-xs">Expo</Badge>
+                        <Badge variant="outline" className="text-xs">Supabase</Badge>
+                        <Badge variant="outline" className="text-xs">Typescript</Badge>
+                        <Badge variant="outline" className="text-xs">Shadcn</Badge>
+                        <Badge variant="outline" className="text-xs">TailwindCSS</Badge>
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <a href="https://prezstige.com/" target="_blank" rel="noopener noreferrer">
+                          <Button className="bg-primary text-primary-foreground hover:bg-primary/90">
+                            View Project <ExternalLink className="ml-2 h-4 w-4" />
+                          </Button>
                         </a>
-                        <span className="text-xs text-muted-foreground">
-                          {project.date}
-                        </span>
+                        <span className="text-xs text-muted-foreground">March 2025</span>
                       </div>
                     </div>
-                  ))}
-              </div>
+                    <div className="relative aspect-video overflow-hidden rounded-lg">
+                      <Image
+                        src="/assets/projects/prezstige_web.png"
+                        alt="Prezstige"
+                        layout="fill"
+                        objectFit="cover"
+                        className="transition-transform duration-300 hover:scale-105"
+                        loading="lazy"
+                        placeholder="blur"
+                        blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDABQODxIPDRQSEBIXFRQdHx4dHRsdHR4dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR3/2wBDAR4SEhwYHDIYGDIdHRkyLR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR3/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAb/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
+                        quality={90}
+                      />
+                    </div>
+                  </div>
+                </TabsContent>
+
+                <TabsContent value="capstone">
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div className="space-y-4">
+                      <div className="flex items-center justify-between">
+                        <h3 className="text-2xl font-bold text-foreground">BarangMI</h3>
+                        <Badge variant="secondary" className="bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400">Academic</Badge>
+                      </div>
+                      <p className="text-sm text-muted-foreground leading-relaxed">
+                        BarangMI for the future. Streamline barangay operations with AI, multi-tenancy, configurable features, and a centralized platform to manage your community.
+                      </p>
+                      <div className="flex flex-wrap gap-2">
+                        <Badge variant="outline" className="text-xs">React</Badge>
+                        <Badge variant="outline" className="text-xs">TailwindCSS</Badge>
+                        <Badge variant="outline" className="text-xs">PostgreSQL</Badge>
+                        <Badge variant="outline" className="text-xs">Typescript</Badge>
+                        <Badge variant="outline" className="text-xs">Shadcn</Badge>
+                        <Badge variant="outline" className="text-xs">Laravel</Badge>
+                        <Badge variant="outline" className="text-xs">JWT</Badge>
+                        <Badge variant="outline" className="text-xs">Spatie</Badge>
+                        <Badge variant="outline" className="text-xs">PHP</Badge>
+                        <Badge variant="outline" className="text-xs">React Native</Badge>
+                        <Badge variant="outline" className="text-xs">Expo</Badge>
+                        <Badge variant="outline" className="text-xs">Python</Badge>
+                        <Badge variant="outline" className="text-xs">Flask</Badge>
+                        <Badge variant="outline" className="text-xs">NX Monorepo</Badge>
+                        <Badge variant="outline" className="text-xs">Vite</Badge>
+                        <Badge variant="outline" className="text-xs">Node JS</Badge>
+                        <Badge variant="outline" className="text-xs">SMTP</Badge>
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <a href="https://kalunasan.barangmi.systems" target="_blank" rel="noopener noreferrer">
+                          <Button className="bg-primary text-primary-foreground hover:bg-primary/90">
+                            View Project <ExternalLink className="ml-2 h-4 w-4" />
+                          </Button>
+                        </a>
+                        <span className="text-xs text-muted-foreground">October 2025</span>
+                      </div>
+                    </div>
+                    <div className="relative aspect-video overflow-hidden rounded-lg">
+                      <Image
+                        src="/assets/projects/barangmi_web.png"
+                        alt="BarangMI"
+                        layout="fill"
+                        objectFit="cover"
+                        className="transition-transform duration-300 hover:scale-105"
+                        loading="lazy"
+                        placeholder="blur"
+                        blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDABQODxIPDRQSEBIXFRQdHx4dHRsdHR4dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR3/2wBDAR4SEhwYHDIYGDIdHRkyLR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR3/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAb/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
+                        quality={90}
+                      />
+                    </div>
+                  </div>
+                </TabsContent>
+              </Tabs>
             </CardContent>
           </Card>
 
