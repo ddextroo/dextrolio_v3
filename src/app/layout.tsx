@@ -14,25 +14,48 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Dexter G. Inguito - Student & Freelancer",
-  description:
-    "Dexter G. Inguito - A passionate student and freelance developer specializing in web, mobile and desktop applications. Explore my portfolio showcasing innovative projects and technical expertise.",
-  icons: {
-    icon: "/favicon.ico",
+  title: {
+    default: "Dexter Inguito | Full‑Stack Developer & Startup CTO",
+    template: "%s | Dexter Inguito",
   },
+  description:
+    "Portfolio of Dexter G. Inguito — building Prezstige and BarangMI. Explore top projects, tech stack, testimonials, and ways to connect.",
+  metadataBase: new URL("https://dextrolio.tech"),
+  alternates: { canonical: "/" },
+  icons: { icon: "/favicon.ico" },
   openGraph: {
+    type: "website",
+    url: "https://dextrolio.tech",
+    title: "Dexter Inguito | Full‑Stack Developer & Startup CTO",
+    description:
+      "Explore my startup Prezstige, capstone BarangMI, and top projects. Connect on GitHub and Facebook.",
+    siteName: "Dexter Inguito",
     images: [
       {
-        url: "/assets/me2.jpg", // Your OpenGraph image path
+        url: "/assets/me2.jpg",
         width: 1200,
         height: 630,
-        alt: "Dexter G. Inguito",
+        alt: "Dexter Inguito",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    images: ["/assets/me2.jpg"], // Your Twitter card image path
+    title: "Dexter Inguito | Full‑Stack Developer & Startup CTO",
+    description:
+      "See my current startup, capstone, and curated top projects.",
+    images: ["/assets/me2.jpg"],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-snippet": -1,
+      "max-image-preview": "large",
+      "max-video-preview": -1,
+    },
   },
 };
 
@@ -43,7 +66,80 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <head />
+      <head>
+        {/* JSON-LD Schema.org for WebSite with potentialAction Site Search */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              '@context': 'https://schema.org',
+              '@type': 'WebSite',
+              name: 'Dexter Inguito',
+              url: 'https://dextrolio.tech',
+              potentialAction: {
+                '@type': 'SearchAction',
+                target: 'https://dextrolio.tech/?q={search_term_string}',
+                'query-input': 'required name=search_term_string',
+              },
+            }),
+          }}
+        />
+        {/* JSON-LD for Person */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              '@context': 'https://schema.org',
+              '@type': 'Person',
+              name: 'Dexter G. Inguito',
+              url: 'https://dextrolio.tech',
+              sameAs: [
+                'https://github.com/ddextroo',
+                'https://www.linkedin.com/in/dexter-inguito-b039a827b/',
+                'https://www.facebook.com/dexter.inguito.7',
+              ],
+              jobTitle: 'Full‑Stack Developer',
+              worksFor: {
+                '@type': 'Organization',
+                name: 'Prezstige',
+                url: 'https://prezstige.com/',
+              },
+            }),
+          }}
+        />
+        {/* JSON-LD for SiteNavigationElement (helps sitelinks) */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              '@context': 'https://schema.org',
+              '@type': 'ItemList',
+              itemListElement: [
+                {
+                  '@type': 'SiteNavigationElement',
+                  name: 'Current Startup Project',
+                  url: 'https://prezstige.com/',
+                },
+                {
+                  '@type': 'SiteNavigationElement',
+                  name: 'Capstone Project',
+                  url: 'https://kalunasan.systems/',
+                },
+                {
+                  '@type': 'SiteNavigationElement',
+                  name: 'Top Projects',
+                  url: 'https://dextrolio.tech/#top-projects',
+                },
+                {
+                  '@type': 'SiteNavigationElement',
+                  name: 'Facebook',
+                  url: 'https://www.facebook.com/dexter.inguito.7',
+                },
+              ],
+            }),
+          }}
+        />
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >

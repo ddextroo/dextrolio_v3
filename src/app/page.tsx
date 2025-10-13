@@ -170,6 +170,14 @@ export default function App() {
                   <Mail className="mr-2 h-4 w-4" /> Send Email
                 </Button>
               </a>
+              <a href="#top-projects" className="w-full sm:w-auto">
+                <Button
+                  variant="outline"
+                  className="w-full text-primary hover:bg-primary/10 px-6 py-2 text-sm font-medium"
+                >
+                  <ChevronRight className="mr-2 h-4 w-4" /> Top Projects
+                </Button>
+              </a>
             </div>
           </div>
         </div>
@@ -556,7 +564,7 @@ export default function App() {
           </Card>
 
           {/* Current Startup Project Card */}
-          <Card className="col-span-full bg-card border border-border hover:shadow-lg transition-shadow duration-300">
+          <Card id="startup" className="col-span-full bg-card border border-border hover:shadow-lg transition-shadow duration-300">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-xl text-foreground flex items-center">
                 <span className="w-1 h-8 bg-primary mr-3"></span>
@@ -619,7 +627,7 @@ export default function App() {
           </Card>
 
           {/* Capstone Project Card */}
-          <Card className="col-span-full bg-card border border-border hover:shadow-lg transition-shadow duration-300">
+          <Card id="capstone" className="col-span-full bg-card border border-border hover:shadow-lg transition-shadow duration-300">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-xl text-foreground flex items-center">
                 <span className="w-1 h-8 bg-primary mr-3"></span>
@@ -681,7 +689,7 @@ export default function App() {
           </Card>
 
           {/* top Projects Card */}
-          <Card className="col-span-full bg-card border border-border hover:shadow-lg transition-shadow duration-300">
+          <Card id="top-projects" className="col-span-full bg-card border border-border hover:shadow-lg transition-shadow duration-300">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-xl text-foreground flex items-center">
                 <span className="w-1 h-8 bg-primary mr-3"></span>
