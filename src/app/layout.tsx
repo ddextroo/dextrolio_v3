@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "Dexter Inguito | Full‑Stack Developer & Startup CTO",
+    default: "Dexter Inguito | Full‑Stack Developer",
     template: "%s | Dexter Inguito",
   },
   description:
@@ -26,7 +26,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     url: "https://dextrolio.tech",
-    title: "Dexter Inguito | Full‑Stack Developer & Startup CTO",
+    title: "Dexter Inguito | Full‑Stack Developer",
     description:
       "Explore my startup Prezstige, capstone BarangMI, and top projects. Connect on GitHub and Facebook.",
     siteName: "Dexter Inguito",
@@ -41,7 +41,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Dexter Inguito | Full‑Stack Developer & Startup CTO",
+    title: "Dexter Inguito | Full‑Stack Developer",
     description:
       "See my current startup, capstone, and curated top projects.",
     images: ["/assets/me2.jpg"],
