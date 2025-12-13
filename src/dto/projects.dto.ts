@@ -450,9 +450,10 @@ export const recentProjects = [
   {
     name: "BarangMI",
     description:
-      "BarangMI for the future. Streamline barangay operations with AI, multi-tenancy, configurable features, and a centralized platform to manage your community.",
+      "BarangMI is an AI-powered, multi-tenant, and configurable centralized platform designed to automate administrative processes, improve transparency, and enhance citizen services within barangays.",
     image: "/assets/projects/barangmi_web.png",
     link: "https://barangmi.com/",
+    demoVideo: "https://www.facebook.com/share/v/176cb1JnJH/",
     date: "n/a",
     type: "web",
     technologies: ["React", "TailwindCSS", "PostgreSQL", "Typescript", "Shadcn", "Laravel", "JWT", "Spatie", "PHP", "React Native", "Expo", "Python", "Flask", "NX Monorepo", "Vite", "Node JS", "SMTP"],

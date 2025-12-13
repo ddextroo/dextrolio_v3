@@ -698,7 +698,7 @@ export default function App() {
                         <Badge variant="secondary" className="bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400">Academic</Badge>
                       </div>
                       <p className="text-sm text-muted-foreground leading-relaxed">
-                        BarangMI for the future. Streamline barangay operations with AI, multi-tenancy, configurable features, and a centralized platform to manage your community.
+                      BarangMI is an AI-powered, multi-tenant, and configurable centralized platform designed to automate administrative processes, improve transparency, and enhance citizen services within barangays.
                       </p>
                       <div className="flex flex-wrap gap-2">
                         <Badge variant="outline" className="text-xs">React</Badge>
@@ -719,12 +719,25 @@ export default function App() {
                         <Badge variant="outline" className="text-xs">Node JS</Badge>
                         <Badge variant="outline" className="text-xs">SMTP</Badge>
                       </div>
-                      <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-3">
                         <a href="https://kalunasan.barangmi.systems" target="_blank" rel="noopener noreferrer">
                           <Button className="bg-primary text-primary-foreground hover:bg-primary/90">
                             View Project <ExternalLink className="ml-2 h-4 w-4" />
                           </Button>
                         </a>
+                        {(() => {
+                          const barangmiProject = recentProjects.find(p => p.name === "BarangMI");
+                          return barangmiProject?.demoVideo ? (
+                            <a href={barangmiProject.demoVideo} target="_blank" rel="noopener noreferrer">
+                              <Button variant="outline" className="text-primary hover:bg-primary/10">
+                                <Play className="mr-2 h-4 w-4" />
+                                View Demo Video
+                              </Button>
+                            </a>
+                          ) : null;
+                        })()}
+                      </div>
+                      <div className="flex items-center justify-end">
                         <span className="text-xs text-muted-foreground">October 2025</span>
                       </div>
                     </div>
