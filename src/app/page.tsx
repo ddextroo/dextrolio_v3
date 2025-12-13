@@ -651,7 +651,7 @@ export default function App() {
                     <div className="space-y-4">
                       <div className="flex items-center justify-between">
                         <h3 className="text-2xl font-bold text-foreground">Prezstige</h3>
-                        <Badge variant="secondary" className="bg-yellow-100 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-400">Featured</Badge>
+                        <Badge variant="secondary" className="bg-yellow-100 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-400">Loyalty Project</Badge>
                       </div>
                       <p className="text-sm text-muted-foreground leading-relaxed">
                         Prezstige is a loyalty management platform that helps MSMEs in the Philippines skyrocket their sales through effective loyalty programs. Prezstige offers digital and physical loyalty cards — including paper, QR, and NFC-powered options — tailored for our partner merchants.
@@ -695,7 +695,7 @@ export default function App() {
                     <div className="space-y-4">
                       <div className="flex items-center justify-between">
                         <h3 className="text-2xl font-bold text-foreground">BarangMI</h3>
-                        <Badge variant="secondary" className="bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400">Academic</Badge>
+                        <Badge variant="secondary" className="bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400">Community Project</Badge>
                       </div>
                       <p className="text-sm text-muted-foreground leading-relaxed">
                       BarangMI is an AI-powered, multi-tenant, and configurable centralized platform designed to automate administrative processes, improve transparency, and enhance citizen services within barangays.
