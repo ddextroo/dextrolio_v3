@@ -458,4 +458,14 @@ export const recentProjects = [
     type: "web",
     technologies: ["React", "TailwindCSS", "PostgreSQL", "Typescript", "Shadcn", "Laravel", "JWT", "Spatie", "PHP", "React Native", "Expo", "Python", "Flask", "NX Monorepo", "Vite", "Node JS", "SMTP"],
   },
+  {
+    name: "Kontak",
+    description:
+      "Contributed to the development of a home-services platform, including mobile applications for customers and service providers, web-based management interfaces, and backend services. Implemented features supporting service bookings, job tracking, payment workflows, and digital wallet functionality. Contributed to the deployment and release of mobile applications for iOS and Android, supporting a live product with 50+ users.",
+    image: "/assets/projects/kontak_web.png",
+    link: "https://kontak-app.com",
+    date: "n/a",
+    type: "mobile",
+    technologies: [],
+  },
 ];

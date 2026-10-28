@@ -22,7 +22,6 @@ export const techStack = [
       "REST API",
       "Slim",
       "Django",
-      "Flask",
     ],
   },
   {
@@ -40,6 +39,11 @@ export const techStack = [
   {
     category: "AI & Machine Learning",
     techs: [
+      "Agentic AI",
+      "Agno",
+      "FastAPI",
+      "Flask",
+      "Ollama",
       "Tensorflow",
       "OpenAI",
       "Gemini",
@@ -53,6 +57,8 @@ export const techStack = [
   {
     category: "Developer Tools",
     techs: [
+      "AWS",
+      "Claude",
       "Github",
       "VS Code",
       "Git",

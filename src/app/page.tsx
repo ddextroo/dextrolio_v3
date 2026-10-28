@@ -3,21 +3,18 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Switch } from "@/components/ui/switch";
-import { ThemeProvider } from "next-themes";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
-  Calendar,
   Mail,
   Github,
   Linkedin,
-  Twitter,
   ExternalLink,
   Play,
   Pause,
   ChevronRight,
+  ChevronLeft,
   Moon,
   Sun,
   Globe,
@@ -26,865 +23,1087 @@ import {
   Volume2,
   VolumeX,
   MapPin,
-  Briefcase,
-  Users,
   Facebook,
-  ChevronLeft,
+  Download,
+  Brain,
 } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
 import { useTheme } from "next-themes";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
 import { recentProjects } from "@/dto/projects.dto";
 import { techStack } from "@/dto/tech_stack.dto";
 import { testimonials } from "@/dto/testimonial.dto";
+
+gsap.registerPlugin(ScrollTrigger, useGSAP);
+
+// One shared low-res placeholder instead of the same base64 pasted six times.
+const BLUR =
+  "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDABQODxIPDRQSEBIXFRQdHx4dHRsdHR4dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR3/2wBDAR4SEhwYHDIYGDIdHRkyLR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR3/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAb/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k=";
+
+// Set to "/resume.pdf" once the PDF is committed to public/ to swap the
+// recruiter takeaway from the LinkedIn profile to a direct download.
+const RESUME_HREF = "https://www.linkedin.com/in/dexter-inguito-b039a827b/";
+const RESUME_IS_PDF = false;
+
+const experience = [
+  {
+    role: "Software Engineer",
+    company: "Sprobe Inc.",
+    period: "February 2026 – October 2026",
+    description:
+      "Led a team building an agentic AI itinerary system — one orchestrator plus web-search, weather, and map tools cut generation time by 80%. Shipped it on Laravel + React in Dockerized containers (Nginx, Caddy), server-sent events for AI workers, and Reverb WebSocket API sync for 50+ users on an AWS EC2 instance, with a GitHub Actions CI/CD pipeline.",
+  },
+  {
+    role: "Chief Technology Officer",
+    company: "Prezstige",
+    period: "July 2025 – Present",
+    description:
+      "Driving end-to-end development of web and mobile solutions that help Filipino MSMEs scale. Own the platform architecture and the design of scalable, reliable systems.",
+  },
+  {
+    role: "Mobile & Web Developer",
+    company: "Freelance",
+    period: "2020 – Present",
+    description:
+      "Delivering tailored web and mobile solutions for clients, from architecture to deployment.",
+  },
+  {
+    role: "Full Stack Developer",
+    company: "Ultima Reviewer",
+    period: "2021 – 2024",
+    description:
+      "Built full-stack applications and managed the technical infrastructure.",
+  },
+  {
+    role: "Product Lead Developer",
+    company: "Unirises",
+    period: "2020 – 2021",
+    description: "Led product development and the technical team.",
+  },
+];
+
+const education = {
+  role: "BS Information Technology",
+  school: "Cebu Technological University – Main Campus",
+  period: "2021 – 2026",
+  note: "Coding since 2017.",
+};
+
+const achievements = [
+  {
+    title: "2nd Place",
+    description: "Product Innovation and Research Summit",
+    date: "December 2024",
+  },
+  {
+    title: "2nd Runner Up",
+    description: "Hack4Gov 3",
+    date: "July 2024",
+  },
+];
+
+const featuredProjectNames = ["Libratech", "Codiphy", "Iskolar ng Bayan"];
+
+type Project = (typeof recentProjects)[number];
+
+const AI_TOKENS = [
+  "tensorflow",
+  "openai",
+  "gemini",
+  "pytorch",
+  "keras",
+  "yolo",
+  "scikit",
+  "agentic",
+  "fastapi",
+  "ollama",
+  "agno",
+  "gpt",
+  "llm",
+  "machine learning",
+  "neural",
+];
+
+const isAIProject = (p: Project) =>
+  p.technologies.some((t) =>
+    AI_TOKENS.some((tok) => t.toLowerCase().includes(tok))
+  ) ||
+  /\bAI\b|agentic|machine learning|neural|GPT|LLM|YOLO|TensorFlow/i.test(
+    p.description
+  );
+
+const platformTiles = [
+  {
+    key: "web",
+    label: "Web",
+    icon: Globe,
+    match: (p: Project) => p.type === "web",
+  },
+  {
+    key: "mobile",
+    label: "Mobile",
+    icon: Smartphone,
+    match: (p: Project) => p.type === "mobile",
+  },
+  {
+    key: "desktop",
+    label: "Desktop",
+    icon: Monitor,
+    match: (p: Project) => p.type === "desktop",
+  },
+  {
+    key: "ai",
+    label: "AI",
+    icon: Brain,
+    match: isAIProject,
+  },
+].map((t) => {
+  const list = recentProjects.filter(t.match);
+  return { ...t, count: list.length, hero: list.find((p) => p.image) };
+});
+
+type Spotlight = {
+  name: string;
+  tag: string;
+  role: string;
+  description: string;
+  techs: string[];
+  link: string;
+  image: string;
+};
+
+const startups: Spotlight[] = [
+  {
+    name: "Kontak",
+    tag: "Service Platform",
+    role: "Contributor",
+    description:
+      "Contributed to the development of a home-services platform, including mobile applications for customers and service providers, web-based management interfaces, and backend services.\n\nImplemented features supporting service bookings, job tracking, payment workflows, and digital wallet functionality.\n\nContributed to the deployment and release of mobile applications for iOS and Android, supporting a live product with 50+ users.",
+    techs: [],
+    link: "https://kontak-app.com/",
+    image: "/assets/projects/kontak_web.png",
+  },
+  {
+    name: "Prezstige",
+    tag: "Loyalty Platform",
+    role: "CTO · March 2025",
+    description:
+      "A loyalty management platform helping MSMEs in the Philippines grow sales through digital and physical loyalty cards — paper, QR, and NFC — tailored for partner merchants.",
+    techs: ["Next.js", "React Native", "Expo", "Supabase", "TypeScript", "TailwindCSS"],
+    link: "https://prezstige.com/",
+    image: "/assets/projects/prezstige_web.png",
+  },
+];
+
+function SectionHeading({ children }: { children: React.ReactNode }) {
+  return (
+    <h2 className="text-lg font-semibold tracking-tight text-foreground sm:text-xl">
+      {children}
+    </h2>
+  );
+}
+
+function Spotlight({ item }: { item: Spotlight }) {
+  return (
+    <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+      <div className="space-y-4">
+        <div className="flex items-center justify-between">
+          <h3 className="text-2xl font-bold">{item.name}</h3>
+          <Badge variant="secondary" className="font-medium">
+            {item.tag}
+          </Badge>
+        </div>
+        <div className="max-w-prose space-y-3 text-sm leading-relaxed text-muted-foreground">
+          {item.description.split("\n\n").map((para, i) => (
+            <p key={i}>{para}</p>
+          ))}
+        </div>
+        {item.techs.length > 0 && (
+          <div className="flex flex-wrap gap-1.5">
+            {item.techs.map((t) => (
+              <Badge key={t} variant="outline" className="text-[11px] font-normal">
+                {t}
+              </Badge>
+            ))}
+          </div>
+        )}
+        <div className="flex items-center justify-between pt-2">
+          <a
+            href={item.link}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <Button className="gap-2">
+              View Project <ExternalLink className="h-4 w-4" />
+            </Button>
+          </a>
+          <span className="text-xs text-muted-foreground">{item.role}</span>
+        </div>
+      </div>
+      {item.image ? (
+        <div className="relative aspect-video overflow-hidden rounded-xl border border-border">
+          <Image
+            src={item.image}
+            alt={item.name}
+            fill
+            sizes="(max-width: 1024px) 100vw, 50vw"
+            className="object-cover"
+            loading="lazy"
+            placeholder="blur"
+            blurDataURL={BLUR}
+            quality={90}
+          />
+        </div>
+      ) : (
+        <div className="flex aspect-video items-center justify-center rounded-xl border border-border bg-muted">
+          <span className="inline-flex items-center gap-2 text-sm font-medium text-muted-foreground">
+            <Smartphone className="h-4 w-4" />
+            {item.name} preview coming soon
+          </span>
+        </div>
+      )}
+    </div>
+  );
+}
+
+const typeIcon: Record<string, typeof Globe> = {
+  web: Globe,
+  mobile: Smartphone,
+  desktop: Monitor,
+};
+
+function ProjectCard({
+  project,
+  sizes,
+}: {
+  project: (typeof recentProjects)[number];
+  sizes: string;
+}) {
+  const [expanded, setExpanded] = useState(false);
+  const sentences = project.description.split(". ");
+  const hasMore = sentences.length > 2 && project.description !== "n/a";
+  const TypeIcon = typeIcon[project.type] ?? Globe;
+  const hasLink = Boolean(project.link);
+  const hasDescription = project.description && project.description !== "n/a";
+
+  return (
+    <div className="flex flex-col h-full">
+      {project.image ? (
+        <div className="relative aspect-video mb-4 overflow-hidden rounded-xl border border-border">
+          <Image
+            src={project.image}
+            alt={`Preview of ${project.name}`}
+            fill
+            sizes={sizes}
+            className="object-cover transition-transform duration-300 hover:scale-[1.03]"
+            loading="lazy"
+            placeholder="blur"
+            blurDataURL={BLUR}
+            quality={90}
+          />
+          <span className="absolute right-2 top-2 inline-flex items-center gap-1 rounded-full bg-foreground/85 px-2 py-1 text-[11px] font-medium text-background">
+            <TypeIcon className="h-3.5 w-3.5" />
+            <span className="capitalize">{project.type}</span>
+          </span>
+        </div>
+      ) : (
+        <div className="mb-4 flex aspect-video items-center justify-center rounded-xl border border-border bg-muted">
+          <span className="inline-flex items-center gap-2 text-sm font-medium text-muted-foreground">
+            <TypeIcon className="h-4 w-4" />
+            {project.name} preview coming soon
+          </span>
+        </div>
+      )}
+      <h3 className="mb-2 text-base font-semibold text-foreground">
+        {project.name}
+      </h3>
+      {hasDescription ? (
+        <p className="mb-4 flex-grow text-sm leading-relaxed text-muted-foreground">
+          {sentences.slice(0, expanded ? undefined : 2).join(". ")}
+          {hasMore && (
+            <>
+              .{" "}
+              <button
+                type="button"
+                onClick={() => setExpanded((v) => !v)}
+                aria-expanded={expanded}
+                className="font-medium text-foreground underline-offset-4 hover:underline"
+              >
+                {expanded ? "See less" : "See more"}
+              </button>
+            </>
+          )}
+        </p>
+      ) : (
+        <p className="mb-4 flex-grow text-sm italic text-muted-foreground">
+          Details being written up.
+        </p>
+      )}
+      <div className="mb-4 flex flex-wrap gap-1.5">
+        {project.technologies.map((tech) => (
+          <Badge key={tech} variant="outline" className="text-[11px] font-normal">
+            {tech}
+          </Badge>
+        ))}
+      </div>
+      <div className="mt-auto flex items-center justify-between">
+        {hasLink ? (
+          <a
+            href={project.link}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1 text-sm font-medium text-foreground underline-offset-4 hover:underline"
+          >
+            View Project <ExternalLink className="h-4 w-4" />
+          </a>
+        ) : (
+          <a
+            href={`https://github.com/ddextroo?q=${encodeURIComponent(project.name)}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1 text-sm font-medium text-muted-foreground underline-offset-4 hover:text-foreground hover:underline"
+          >
+            Find on GitHub <ExternalLink className="h-4 w-4" />
+          </a>
+        )}
+        {project.date && project.date !== "n/a" && (
+          <span className="text-xs text-muted-foreground">{project.date}</span>
+        )}
+      </div>
+    </div>
+  );
+}
 
 export default function App() {
   const [isPlaying, setIsPlaying] = useState(true);
   const [isMuted, setIsMuted] = useState(true);
   const [mounted, setMounted] = useState(false);
-  const [showFullDescription, setShowFullDescription] = useState(false);
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [showAllStack, setShowAllStack] = useState(false);
   const { theme, setTheme } = useTheme();
   const videoRef = useRef<HTMLVideoElement>(null);
+  const rootRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     setMounted(true);
-    if (videoRef.current) {
-      videoRef.current.play().catch((error) => {
-        console.log("Video autoplay failed:", error);
-      });
-    }
+    videoRef.current?.play().catch(() => {});
   }, []);
 
   const toggleVideo = () => {
-    if (videoRef.current) {
-      if (isPlaying) {
-        videoRef.current.pause();
-      } else {
-        videoRef.current.play().catch((error) => {
-          console.log("Video play failed:", error);
-        });
-      }
-      setIsPlaying(!isPlaying);
-    }
+    const v = videoRef.current;
+    if (!v) return;
+    if (v.paused) v.play().catch(() => {});
+    else v.pause();
+    setIsPlaying(!v.paused);
   };
 
   const toggleMute = () => {
-    if (videoRef.current) {
-      videoRef.current.muted = !videoRef.current.muted;
-      setIsMuted(!isMuted);
-    }
+    const v = videoRef.current;
+    if (!v) return;
+    v.muted = !v.muted;
+    setIsMuted(v.muted);
   };
 
+  useGSAP(
+    () => {
+      const mm = gsap.matchMedia();
+
+      mm.add("(prefers-reduced-motion: no-preference)", () => {
+        gsap.defaults({ ease: "power3.out" });
+
+        // Focal moment: the claim assembles, then the demo video wipes in.
+        const hero = gsap.timeline();
+        hero
+          .from("[data-hero='media']", {
+            autoAlpha: 0,
+            scale: 0.98,
+            duration: 0.6,
+          })
+          .from(
+            "[data-hero='claim']",
+            { autoAlpha: 0, y: 18, duration: 0.6, stagger: 0.08 },
+            "-=0.35"
+          )
+          .from(
+            "[data-hero='cta'] > *",
+            { autoAlpha: 0, y: 12, duration: 0.45, stagger: 0.07 },
+            "-=0.3"
+          );
+
+        gsap.from("[data-hero='video']", {
+          clipPath: "inset(0 100% 0 0)",
+          duration: 0.9,
+          ease: "power4.out",
+          clearProps: "clipPath",
+          scrollTrigger: { trigger: "[data-hero='video']", start: "top 85%" },
+        });
+
+        // Quiet supporting reveals — distinct from the hero choreography.
+        gsap.utils.toArray<HTMLElement>("[data-reveal]").forEach((el) => {
+          gsap.from(el, {
+            autoAlpha: 0,
+            y: 24,
+            duration: 0.6,
+            scrollTrigger: { trigger: el, start: "top 88%" },
+          });
+        });
+
+        // One list stagger, for the featured project cards (only when mounted).
+        const cards = gsap.utils.toArray<HTMLElement>("[data-project-card]");
+        if (cards.length) {
+          gsap.from(cards, {
+            autoAlpha: 0,
+            y: 20,
+            duration: 0.5,
+            stagger: 0.08,
+            scrollTrigger: { trigger: "[data-project-grid]", start: "top 82%" },
+          });
+        }
+
+        // Signature moment: the range proof tiles rise in sequence.
+        const tiles = gsap.utils.toArray<HTMLElement>("[data-proof-tile]");
+        if (tiles.length) {
+          gsap.from(tiles, {
+            autoAlpha: 0,
+            y: 28,
+            scale: 0.97,
+            duration: 0.55,
+            stagger: 0.1,
+            ease: "back.out(1.4)",
+            scrollTrigger: { trigger: "[data-proof-grid]", start: "top 86%" },
+          });
+        }
+      });
+
+      // Reduced motion: keep content visible, drop spatial movement.
+      mm.add("(prefers-reduced-motion: reduce)", () => {
+        gsap.utils.toArray<HTMLElement>(
+          "[data-reveal], [data-hero='video'], [data-project-card], [data-proof-tile]"
+        ).forEach((el) => gsap.set(el, { clearProps: "all" }));
+      });
+    },
+    { scope: rootRef, dependencies: [] }
+  );
+
   const themeSwitch = (
-    <div className="flex items-center space-x-2">
+    <div className="flex items-center gap-2">
       <Sun className="h-4 w-4 text-muted-foreground" />
       {mounted && (
         <Switch
           checked={theme === "dark"}
           onCheckedChange={() => setTheme(theme === "dark" ? "light" : "dark")}
+          aria-label="Toggle dark mode"
         />
       )}
       <Moon className="h-4 w-4 text-muted-foreground" />
     </div>
   );
 
+  const mainTech = (category: string, tech: string) =>
+    (category === "Frontend" && tech === "React") ||
+    (category === "Backend" && tech === "Laravel") ||
+    (category === "Database" && tech === "PostgreSQL") ||
+    (category === "Desktop" && tech === "Java Swing") ||
+    (category === "AI & Machine Learning" &&
+      ["Tensorflow", "Agentic AI", "Agno", "FastAPI", "Flask", "Ollama"].includes(
+        tech
+      )) ||
+    (category === "Mobile" &&
+      (tech === "Flutter" || tech === "Android" || tech === "React Native")) ||
+    (category === "Developer Tools" &&
+      ["Github", "VS Code", "AWS", "Claude"].includes(tech));
+
   return (
-    <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-      <div className="max-w-6xl mx-auto px-10 lg:px-20 py-8 bg-background transition-colors duration-200">
-        {/* Extracted Personal Info Section */}
-        <div className="col-span-full md:col-span-2 lg:col-span-3 bg-card rounded-lg py-4 mb-6">
-          <div className="flex justify-end mb-2">{themeSwitch}</div>
-          <div className="flex flex-col md:flex-row items-center justify-between px-4">
-            <div className="flex flex-col sm:flex-row items-center mb-4 md:mb-0">
-              <Image
-                src="/assets/me2.jpg"
-                alt="Profile Picture"
-                width={150}
-                height={150}
-                className="rounded-lg sm:mx-auto sm:mr-6 mr-0 h-[150px] center object-cover"
-                loading="lazy"
-                placeholder="blur"
-                blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDABQODxIPDRQSEBIXFRQdHx4dHRsdHR4dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR3/2wBDAR4SEhwYHDIYGDIdHRkyLR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR3/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAb/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
-                quality={100}
-              />
-              <div className="sm:text-center flex flex-col items-center sm:items-start">
-               <div className="flex items-center gap-2 mb-2 justify-center">
-                <h1 className="text-2xl font-bold text-foreground flex items-center">
-                  Dexter G. Inguito
-                  <span className="ml-2 flex items-center">
-                    <Image
-                      src="/assets/verified.png"
-                      alt="verified"
-                      width={20}
-                      height={20}
-                      className="inline-block align-middle"
-                    />
-                  </span>
-                </h1>
-               </div>
-                <div className="flex items-center gap-2 mb-2 sm:justify-center">
-                  <Badge
-                    variant="secondary"
-                    className="bg-primary/10 text-primary"
-                  >
-                    Student
-                  </Badge>
-                  <span className="text-muted-foreground">&</span>
-                  <Badge
-                    variant="secondary"
-                    className="bg-primary/10 text-primary"
-                  >
-                    Freelancer
-                  </Badge>
-                </div>
-                <div className="flex flex-col text-muted-foreground sm:items-start items-center">
-                  <div className="flex items-center">
-                    <MapPin className="mr-2 h-4 w-4" />
-                    <p className="text-xs">Mandaue City</p>
-                  </div>
-                  <p className="text-xs sm:ml-0 ml-6">Cebu, Philippines 6014</p>
-                </div>
-              </div>
-            </div>
-            <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
+    <div
+      ref={rootRef}
+      className="min-h-screen bg-background text-foreground"
+    >
+      <a
+        href="#main"
+        className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-md focus:bg-foreground focus:px-3 focus:py-2 focus:text-sm focus:font-medium focus:text-background"
+      >
+        Skip to content
+      </a>
+      <div
+        id="main"
+        className="mx-auto max-w-5xl px-5 py-8 sm:px-8 lg:px-6"
+      >
+        {/* Top bar: identity + sections + theme */}
+        <div className="mb-10 flex items-center justify-between">
+          <Link href="/" className="flex items-center gap-2">
+            <Image
+              src="/assets/dlogo.png"
+              alt="Dextrolio logo"
+              width={28}
+              height={28}
+              className="h-7 w-7"
+              priority
+            />
+            <span className="text-sm font-semibold tracking-tight">
+              dextrolio.tech
+            </span>
+          </Link>
+          <div className="flex items-center gap-1">
+            <nav aria-label="Sections" className="hidden items-center gap-1 sm:flex">
               <a
-                href="https://m.me/dexter.inguito.7"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-full sm:w-auto"
+                href="#projects"
+                className="rounded-md px-2.5 py-1 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
               >
-                <Button
-                  variant="default"
-                  className="w-full bg-primary text-primary-foreground hover:bg-primary/90 px-6 py-2 text-sm font-medium"
-                >
-                  <Facebook className="mr-2 h-4 w-4" /> Message me
-                </Button>
+                Work
               </a>
               <a
-                href="mailto:dexteringuito3@gmail.com"
-                className="w-full sm:w-auto"
+                href="#experience"
+                className="rounded-md px-2.5 py-1 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
               >
-                <Button
-                  variant="outline"
-                  className="w-full text-primary hover:bg-primary/10 px-6 py-2 text-sm font-medium"
-                >
-                  <Mail className="mr-2 h-4 w-4" /> Send Email
-                </Button>
+                Experience
               </a>
-            </div>
+              <a
+                href="#contact"
+                className="rounded-md px-2.5 py-1 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+              >
+                Contact
+              </a>
+            </nav>
+            {themeSwitch}
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4">
-          {/* Video Intro Card */}
-          <Card className="col-span-full lg:col-span-2 bg-card border border-border overflow-hidden hover:shadow-lg transition-shadow duration-300">
-            <div className="relative aspect-video">
-              <video
-                ref={videoRef}
-                className="w-full h-full object-cover"
-                poster="/assets/thumbnail.png"
-                muted
-                loop
-                playsInline
-                preload="metadata"
+        {/* Hero — makes the claim in the first viewport */}
+        <section className="mb-14">
+          <div className="flex flex-col items-start gap-8 lg:flex-row lg:items-center">
+            <div className="flex-1">
+              <div data-hero="media" className="mb-6 flex items-center gap-4">
+                <Image
+                  src="/assets/me2.jpg"
+                  alt="Dexter Inguito"
+                  width={72}
+                  height={72}
+                  className="h-[72px] w-[72px] rounded-xl object-cover"
+                  priority
+                />
+                <Image
+                  src="/assets/verified.png"
+                  alt=""
+                  width={18}
+                  height={18}
+                  className="hidden"
+                  aria-hidden
+                />
+              </div>
+
+              <h1
+                data-hero="claim"
+                className="text-4xl font-bold leading-[1.05] tracking-tight sm:text-5xl"
               >
-                <source src="/assets/vid.mp4" type="video/mp4" />
-                Your browser does not support the video tag.
-              </video>
-              <div className="absolute bottom-4 right-4 flex gap-2">
+                Dexter G. Inguito
+              </h1>
+              <p
+                data-hero="claim"
+                className="mt-3 text-lg font-medium text-muted-foreground"
+              >
+                Software Engineer
+              </p>
+              <p
+                data-hero="claim"
+                className="mt-4 max-w-xl text-base leading-relaxed text-muted-foreground"
+              >
+                I ship full-stack products across{" "}
+                <span className="font-semibold text-foreground">web</span>,{" "}
+                <span className="font-semibold text-foreground">mobile</span>,{" "}
+                <span className="font-semibold text-foreground">desktop</span>{" "}
+                and{" "}
+                <span className="font-semibold text-foreground">AI</span>.
+              </p>
+              <p className="mt-4 flex items-center gap-1.5 text-sm text-muted-foreground">
+                <MapPin className="h-4 w-4" />
+                Cebu City, Cebu, Philippines
+              </p>
+
+              <div data-hero="cta" className="mt-7 flex flex-wrap gap-3">
+                <a
+                  href="https://m.me/dexter.inguito.7"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <Button size="lg" className="gap-2">
+                    <Facebook className="h-4 w-4" /> Message me
+                  </Button>
+                </a>
+                <a href="mailto:dexteringuito3@gmail.com">
+                  <Button size="lg" variant="outline" className="gap-2">
+                    <Mail className="h-4 w-4" /> Send Email
+                  </Button>
+                </a>
+                <a href={RESUME_HREF} target="_blank" rel="noopener noreferrer">
+                  <Button size="lg" variant="ghost" className="gap-2 underline-offset-4 hover:underline">
+                    <Download className="h-4 w-4" />
+                    {RESUME_IS_PDF ? "Download Résumé" : "Full profile"}
+                  </Button>
+                </a>
+              </div>
+            </div>
+
+            {/* Committed proof asset — kept prominent */}
+            <div
+              data-hero="video"
+              className="relative w-full overflow-hidden rounded-2xl border border-border lg:max-w-md"
+            >
+              <div className="relative aspect-video">
+                <video
+                  ref={videoRef}
+                  className="h-full w-full object-cover"
+                  poster="/assets/thumbnail.png"
+                  muted
+                  loop
+                  playsInline
+                  preload="metadata"
+                >
+                  <source src="/assets/vid.mp4" type="video/mp4" />
+                  Your browser does not support the video tag.
+                </video>
+              </div>
+              <div className="absolute bottom-3 right-3 flex gap-2">
                 <Button
-                  className="bg-primary text-primary-foreground hover:bg-primary/90 text-sm sm:text-xs"
+                  size="sm"
+                  variant="secondary"
+                  className="gap-1.5 text-xs"
                   onClick={toggleMute}
                 >
                   {isMuted ? (
-                    <>
-                      <VolumeX className="mr-2 h-4 w-4" />
-                      Unmute Intro
-                    </>
+                    <VolumeX className="h-4 w-4" />
                   ) : (
-                    <>
-                      <Volume2 className="mr-2 h-4 w-4" />
-                      Mute Intro
-                    </>
+                    <Volume2 className="h-4 w-4" />
                   )}
+                  {isMuted ? "Unmute" : "Mute"}
                 </Button>
                 <Button
-                  className="bg-primary text-primary-foreground hover:bg-primary/90 text-sm sm:text-xs"
+                  size="sm"
+                  variant="secondary"
+                  className="gap-1.5 text-xs"
                   onClick={toggleVideo}
                 >
                   {isPlaying ? (
-                    <Pause className="mr-2 h-4 w-4" />
+                    <Pause className="h-4 w-4" />
                   ) : (
-                    <Play className="mr-2 h-4 w-4" />
+                    <Play className="h-4 w-4" />
                   )}
-                  {isPlaying ? "Pause" : "Play"} Intro
+                  {isPlaying ? "Pause" : "Play"}
                 </Button>
               </div>
             </div>
-          </Card>
+          </div>
+        </section>
 
-          {/* About Card */}
-          <Card className="col-span-full bg-card border border-border hover:shadow-lg transition-shadow duration-300">
-            <CardHeader className="pb-2">
-              <CardTitle className="text-xl text-foreground flex items-center">
-                <span className="w-1 h-8 bg-primary mr-3"></span>
-                <span className="bg-gradient-to-r from-primary to-primary/60 text-transparent bg-clip-text">
-                  About Me
-                </span>
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-sm text-muted-foreground leading-relaxed">
-                I'm a self-taught developer with five years of experience in app
-                development, freelancing, and startup innovation. Passionate
-                about coding and problem-solving, I stay ahead of industry
-                trends by continuously adapting to emerging technologies. My
-                expertise spans full-stack development, mobile and web
-                applications, and scalable solutions that drive efficiency and
-                innovation.
-                <br />
-                <br />
-                Throughout my journey, I have led a team to build a startup app,
-                enhancing my skills in development, leadership, and
-                collaboration. This experience has deepened my understanding of
-                product development and user experience. Driven by curiosity and
-                a commitment to excellence, I strive to push the boundaries of
-                technology while working toward becoming a senior developer.
-              </p>
-            </CardContent>
-          </Card>
-
-          
-
-          {/* Experience & Achievements + Tech Stack Row */}
-          <div className="col-span-full grid grid-cols-1 md:grid-cols-3 gap-4">
-          {/* Experience & Achievements */}
-          <Card className="md:col-span-2 bg-card border border-border hover:shadow-lg transition-shadow duration-300">
-            <CardHeader className="pb-2">
-              <CardTitle className="text-xl text-foreground flex items-center">
-                <span className="w-1 h-8 bg-primary mr-3 rounded-full"></span>
-                <span className="bg-gradient-to-r from-primary to-primary/60 text-transparent bg-clip-text">Experience & Achievements</span>
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="pt-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {/* Experience */}
-                <div className="space-y-6">
-                  <h3 className="text-sm font-semibold text-foreground">Experience</h3>
-                  {[
-                    {
-                      role: "Chief Technology Officer",
-                      company: "Prezstige",
-                      period: "July 2025 - Present",
-                      description:
-                        "Driving the end-to-end development of web and mobile solutions that empower Filipino MSMEs to scale. Defining the platform’s architecture and leading the design of scalable, reliable systems.",
-                    },
-                    {
-                      role: "Mobile App Developer and Web Developer",
-                      company: "Freelancer",
-                      period: "2020 - Present",
-                      description:
-                        "Delivering tailored web and mobile solutions for clients, from architecture to deployment, ensuring scalable and impactful results.",
-                    },
-                    {
-                      role: "Full Stack Developer",
-                      company: "Ultima Reviewer",
-                      period: "2021 - 2024",
-                      description:
-                        "Developing full-stack applications and managing technical infrastructure",
-                    },
-                    {
-                      role: "Product Lead Developer",
-                      company: "Unirises",
-                      period: "2020 - 2021",
-                      description:
-                        "Led product development and technical team management",
-                    },
-                    {
-                      role: "BS Information Technology",
-                      company: "Cebu Technological University - Main Campus",
-                      period: "2021 - 2026",
-                      description:
-                        "4th yr undergrad student",
-                    },
-                    {
-                      role: "Hello World! 👋🏻",
-                      company: "",
-                      period: "2017",
-                      description:
-                        "Wrote my first line of code",
-                    },
-                  ].map((job, index) => (
-                    <div key={index} className="flex group">
-                      <div className="flex flex-col items-center mr-4">
-                        <div
-                          className={`w-3 h-3 border-2 border-primary rounded-full transition-all duration-300 group-hover:scale-125 ${index === 0
-                              ? "bg-primary"
-                              : "bg-card group-hover:bg-primary/50"
-                            }`}
-                        ></div>
-                        {index !== 2 && (
-                          <div className="w-0.5 flex-grow bg-primary/50 mt-1"></div>
-                        )}
-                      </div>
-                      <div className="flex-1 -mt-1">
-                        <div className="bg-card hover:bg-muted/50 p-3 rounded-lg transition-colors duration-200">
-                          <h3 className="font-semibold text-sm text-foreground">
-                            {job.role}
-                          </h3>
-                          <p className="text-sm text-primary font-medium">
-                            {job.company}
-                          </p>
-                          <p className="text-xs text-muted-foreground mb-2">
-                            {job.period}
-                          </p>
-                          <p className="text-xs text-muted-foreground">
-                            {job.description}
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-
-                {/* Achievements */}
-                <div className="space-y-4">
-                  <h3 className="text-sm font-semibold text-foreground">Achievements</h3>
-                  {[
-                    {
-                      title: "2nd Place",
-                      description: "Product Innovation and Research Summit",
-                      date: "December 13, 2024",
-                    },
-                    {
-                      title: "2nd Runner Up",
-                      description: "Hack4Gov 3",
-                      date: "July 21, 2024",
-                    },
-                  ].map((achievement, index) => (
-                    <div key={index} className="flex group">
-                      <div className="flex flex-col items-center mr-4">
-                        <div
-                          className={`w-3 h-3 border-2 border-primary rounded-full transition-all duration-300 group-hover:scale-125 ${index === 0
-                              ? "bg-primary"
-                              : "bg-card group-hover:bg-primary/50"
-                            }`}
-                        ></div>
-                        {index !== 1 && (
-                          <div className="w-0.5 flex-grow bg-primary/50 mt-1"></div>
-                        )}
-                      </div>
-                      <div className="flex-1 -mt-1">
-                        <div className="bg-card hover:bg-muted/50 p-3 rounded-lg transition-colors duration-200">
-                          <h3 className="font-semibold text-sm text-foreground">
-                            {achievement.title}
-                          </h3>
-                          <p className="text-sm text-muted-foreground">
-                            {achievement.description}
-                          </p>
-                          <p className="text-xs text-primary mt-1">
-                            {achievement.date}
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Tech Stack */}
-          <Card className="md:col-span-1 bg-card border border-border hover:shadow-lg transition-shadow duration-300">
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-xl text-foreground flex items-center">
-                <span className="w-1 h-8 bg-primary mr-3"></span>
-                <span className="bg-gradient-to-r from-primary to-primary/60 text-transparent bg-clip-text">Tech Stack</span>
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                {techStack.map((category, index) => (
-                  <div key={index}>
-                    <h3 className="font-semibold mb-2 text-xs text-foreground">{category.category}</h3>
-                    <div className="flex flex-wrap gap-2">
-                      {category.techs.map((tech) => {
-                        const isMainTech =
-                          (category.category === "Frontend" && tech === "React") ||
-                          (category.category === "Backend" && tech === "Laravel") ||
-                          (category.category === "Database" && tech === "PostgreSQL") ||
-                          (category.category === "Desktop" && tech === "Java Swing") ||
-                          (category.category === "AI & Machine Learning" && tech === "Tensorflow") ||
-                          (category.category === "Mobile" && (tech === "Flutter" || tech === "Android")) ||
-                          (category.category === "Developer Tools" && (tech === "Github" || tech === "VS Code"));
-
-                        return (
-                          <Badge
-                            key={tech}
-                            variant="outline"
-                            className={`transition-colors duration-200 text-xs ${isMainTech ? "dark:bg-primary/20 dark:border-primary dark:text-primary bg-primary text-primary-foreground font-semibold" : ""}`}
-                          >
-                            {tech}
-                          </Badge>
-                        );
-                      })}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
+        {/* What I ship — range proof + featured work */}
+        <section id="projects" data-reveal className="mb-14">
+          <div className="flex items-center justify-between">
+            <SectionHeading>What I ship</SectionHeading>
+            <Link
+              href="/projects"
+              className="inline-flex items-center gap-1 text-sm font-medium text-muted-foreground underline-offset-4 hover:text-foreground hover:underline"
+            >
+              View all <ChevronRight className="h-4 w-4" />
+            </Link>
           </div>
 
-          {/* Freelancing Stats Card */}
-          <Card className="col-span-full md:col-span-1 bg-card border border-border hover:shadow-lg transition-shadow duration-300">
-            <CardHeader className="pb-2">
-              <CardTitle className="text-xl text-foreground flex items-center">
-                <span className="w-1 h-8 bg-primary mr-3"></span>
-                <span className="bg-gradient-to-r from-primary to-primary/60 text-transparent bg-clip-text">
-                  Freelancing Journey
-                </span>
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-2 gap-6 p-4">
-                <div className="relative flex flex-col items-center p-6 rounded-lg transition-transform hover:scale-105">
-                  <Users className="w-10 h-10 mb-3 text-primary" />
-                  <div className="relative">
-                    <p className="text-4xl font-bold text-primary">30+</p>
-                    <span className="absolute -top-1 -right-4 text-xs text-primary animate-pulse">
-                      ↗
-                    </span>
-                  </div>
-                  <p className="text-sm text-muted-foreground mt-2">
-                    Satisfied Clients
-                  </p>
+          <div
+            data-proof-grid
+            className="mt-6 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4"
+          >
+            {platformTiles.map(({ key, label, icon: Icon, count, hero }) => (
+              <div
+                key={key}
+                data-proof-tile
+                className="group overflow-hidden rounded-2xl border border-border bg-card"
+              >
+                <div className="relative aspect-[16/10] overflow-hidden">
+                  {hero?.image ? (
+                    <Image
+                      src={hero.image}
+                      alt={`${label} project: ${hero.name}`}
+                      fill
+                      sizes="(max-width: 640px) 50vw, 25vw"
+                      className="object-cover transition-transform duration-500 group-hover:scale-[1.05]"
+                      loading="lazy"
+                      placeholder="blur"
+                      blurDataURL={BLUR}
+                      quality={80}
+                    />
+                  ) : (
+                    <div className="flex h-full items-center justify-center bg-muted">
+                      <Icon className="h-6 w-6 text-muted-foreground" />
+                    </div>
+                  )}
+                  <span className="absolute left-2 top-2 inline-flex items-center gap-1 rounded-full bg-foreground/85 px-2 py-0.5 text-[11px] font-medium text-background">
+                    <Icon className="h-3 w-3" />
+                    {label}
+                  </span>
                 </div>
-                <div className="relative flex flex-col items-center p-6 rounded-lg transition-transform hover:scale-105">
-                  <Briefcase className="w-10 h-10 mb-3 text-primary" />
-                  <div className="relative">
-                    <p className="text-4xl font-bold text-primary">50+</p>
-                    <span className="absolute -top-1 -right-4 text-xs text-primary animate-pulse">
-                      ↗
-                    </span>
-                  </div>
-                  <p className="text-sm text-muted-foreground mt-2">
-                    Projects Completed
-                  </p>
+                <div className="flex items-baseline justify-between gap-2 px-3 py-2.5">
+                  <span className="truncate text-sm font-semibold text-foreground">
+                    {hero?.name ?? label}
+                  </span>
+                  <span className="shrink-0 text-xs tabular-nums text-muted-foreground">
+                    {count} shipped
+                  </span>
                 </div>
               </div>
-            </CardContent>
-          </Card>
+            ))}
+          </div>
 
-          {/* School Organizations Card */}
-          <Card className="col-span-full md:col-span-1 bg-card border border-border hover:shadow-lg transition-shadow duration-300">
-            <CardHeader className="pb-2">
-              <CardTitle className="text-xl text-foreground flex items-center">
-                <span className="w-1 h-8 bg-primary mr-3 rounded-full"></span>
-                <span className="bg-gradient-to-r from-primary to-primary/60 text-transparent bg-clip-text">
-                  School Organizations
-                </span>
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="pt-4">
-              <div className="space-y-6">
-                {[
-                  {
-                    org: "Google Developer Groups on Campus - Cebu Technological University - Main Campus",
-                    roles: [
-                      {
-                        title: "Mobile Development Lead",
-                        period: "July 2025 - Present",
-                      },
-                      {
-                        title: "Chief Technology Officer",
-                        period: "August 2024 - June 2025",
-                      },
-                      {
-                        title: "Mobile Development Lead",
-                        period: "September 2023 - August 2024",
-                      },
-                    ],
-                  },
-                ].map((org, index) => (
-                  <div key={index} className="flex group">
-                    <div className="flex flex-col items-center mr-4">
-                      <div className="w-4 h-4 border-2 border-primary rounded-full bg-background group-hover:bg-primary transition-colors duration-200"></div>
-                      <div className="w-0.5 h-full bg-primary/30 group-hover:bg-primary transition-colors duration-200"></div>
+          <Tabs defaultValue="startup" className="mt-8 w-full">
+            <TabsList className="mb-5">
+              <TabsTrigger value="startup" className="data-[state=inactive]:text-foreground/75">
+                Startup
+              </TabsTrigger>
+              <TabsTrigger value="capstone" className="data-[state=inactive]:text-foreground/75">
+                Capstone
+              </TabsTrigger>
+              <TabsTrigger value="top" className="data-[state=inactive]:text-foreground/75">
+                Top Projects
+              </TabsTrigger>
+            </TabsList>
+
+            <TabsContent value="top">
+              <div
+                data-project-grid
+                className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3"
+              >
+                {recentProjects
+                  .filter((p) => featuredProjectNames.includes(p.name))
+                  .map((project, i) => (
+                    <div data-project-card key={i}>
+                      <ProjectCard
+                        project={project}
+                        sizes="(max-width: 768px) 100vw, 33vw"
+                      />
                     </div>
-                    <div className="pt-[-4px] flex-1">
-                      <h3 className="font-semibold text-sm text-foreground mb-3 group-hover:text-primary transition-colors duration-200">
-                        {org.org}
-                      </h3>
-                      <div className="space-y-3">
-                        {org.roles.map((role, roleIndex) => (
-                          <div
-                            key={roleIndex}
-                            className="border border-primary/30 rounded-lg p-3 hover:border-primary transition-colors duration-200"
-                          >
-                            <p className="text-sm font-medium text-primary">
-                              {role.title}
-                            </p>
-                            <p className="text-xs text-muted-foreground mt-1">
-                              {role.period}
-                            </p>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
+                  ))}
+              </div>
+            </TabsContent>
+
+            <TabsContent value="startup">
+              <div className="space-y-8">
+                {startups.map((s) => (
+                  <Spotlight key={s.name} item={s} />
                 ))}
               </div>
-            </CardContent>
-          </Card>
+            </TabsContent>
 
-          {/* Projects Section with Tabs */}
-          <Card id="top-projects" className="col-span-full bg-card border border-border hover:shadow-lg transition-shadow duration-300">
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-xl text-foreground flex items-center">
-                <span className="w-1 h-8 bg-primary mr-3"></span>
-                <span className="bg-gradient-to-r from-primary to-primary/60 text-transparent bg-clip-text">
-                  Projects
-                </span>
-              </CardTitle>
-              <Button variant="link" className="text-primary text-sm" asChild>
-                <Link href="/projects">
-                  View All <ChevronRight className="ml-1 h-4 w-4" />
-                </Link>
-              </Button>
-            </CardHeader>
-            <CardContent>
-              <Tabs defaultValue="startup" className="w-full">
-                <TabsList className="mb-4">
-                  <TabsTrigger value="startup">Startup</TabsTrigger>
-                  <TabsTrigger value="capstone">Capstone</TabsTrigger>
-                  <TabsTrigger value="top">Top Projects</TabsTrigger>
-                </TabsList>
-
-                <TabsContent value="top">
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                    {recentProjects
-                      .filter((project) =>
-                        ["Libratech", "Codiphy", "Iskolar ng Bayan"].includes(
-                          project.name
-                        )
+            <TabsContent value="capstone">
+              <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between">
+                    <h3 className="text-2xl font-bold">BarangMI</h3>
+                    <Badge variant="secondary" className="font-medium">
+                      Community Project
+                    </Badge>
+                  </div>
+                  <p className="max-w-prose text-sm leading-relaxed text-muted-foreground">
+                    An AI-powered, multi-tenant platform that automates
+                    administrative processes, improves transparency, and
+                    strengthens citizen services within barangays.
+                  </p>
+                  <div className="flex flex-wrap gap-1.5">
+                    {["React", "Laravel", "PostgreSQL", "TypeScript", "Python", "Flask", "React Native"].map(
+                      (t) => (
+                        <Badge key={t} variant="outline" className="text-[11px] font-normal">
+                          {t}
+                        </Badge>
                       )
-                      .map((project, index) => (
-                        <div key={index} className="flex flex-col h-full">
-                          <div className="relative aspect-video mb-4 overflow-hidden rounded-lg">
-                            <Image
-                              src={project.image || "/placeholder.svg"}
-                              alt={`Preview of ${project.name}`}
-                              layout="fill"
-                              objectFit="cover"
-                              className="transition-transform duration-300 hover:scale-105"
-                              loading="lazy"
-                              placeholder="blur"
-                              blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDABQODxIPDRQSEBIXFRQdHx4dHRsdHR4dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR3/2wBDAR4SEhwYHDIYGDIdHRkyLR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR3/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAb/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
-                              quality={90}
-                            />
-                            <div className="absolute top-2 right-2">
-                              {project.type === "web" && (
-                                <Globe className="h-6 w-6 text-background bg-primary rounded-full p-1" />
-                              )}
-                              {project.type === "mobile" && (
-                                <Smartphone className="h-6 w-6 text-background bg-primary rounded-full p-1" />
-                              )}
-                              {project.type === "desktop" && (
-                                <Monitor className="h-6 w-6 text-background bg-primary rounded-full p-1" />
-                              )}
-                            </div>
-                          </div>
-                          <h3 className="font-semibold text-base text-foreground mb-2">
-                            {project.name}
-                          </h3>
-                          <p className="text-xs text-muted-foreground mb-4 flex-grow">
-                            {project.description
-                              .split(". ")
-                              .slice(0, showFullDescription ? undefined : 2)
-                              .join(". ")}
-                            {project.description.split(". ").length > 2 && (
-                              <>
-                                .{" "}
-                                <button
-                                  className="text-primary hover:underline"
-                                  onClick={() =>
-                                    setShowFullDescription(!showFullDescription)
-                                  }
-                                >
-                                  {showFullDescription ? "See less" : "See more"}
-                                </button>
-                              </>
-                            )}
-                          </p>
-                          <div className="flex flex-wrap gap-2 mb-4">
-                            {project.technologies.map((tech) => (
-                              <Badge
-                                key={tech}
-                                variant="outline"
-                                className="text-xs"
-                              >
-                                {tech}
-                              </Badge>
-                            ))}
-                          </div>
-                          <div className="flex items-center justify-between mt-auto">
-                            <a
-                              href={project.link}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="text-primary hover:underline flex items-center text-xs"
-                            >
-                              View Project <ExternalLink className="ml-1 h-4 w-4" />
-                            </a>
-                            <span className="text-xs text-muted-foreground">
-                              {project.date}
-                            </span>
-                          </div>
-                        </div>
-                      ))}
+                    )}
                   </div>
-                </TabsContent>
-
-                <TabsContent value="startup">
-                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                    <div className="space-y-4">
-                      <div className="flex items-center justify-between">
-                        <h3 className="text-2xl font-bold text-foreground">Prezstige</h3>
-                        <Badge variant="secondary" className="bg-yellow-100 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-400">Loyalty Project</Badge>
-                      </div>
-                      <p className="text-sm text-muted-foreground leading-relaxed">
-                        Prezstige is a loyalty management platform that helps MSMEs in the Philippines skyrocket their sales through effective loyalty programs. Prezstige offers digital and physical loyalty cards — including paper, QR, and NFC-powered options — tailored for our partner merchants.
-                      </p>
-                      <div className="flex flex-wrap gap-2">
-                        <Badge variant="outline" className="text-xs">Next.js</Badge>
-                        <Badge variant="outline" className="text-xs">React Native</Badge>
-                        <Badge variant="outline" className="text-xs">Expo</Badge>
-                        <Badge variant="outline" className="text-xs">Supabase</Badge>
-                        <Badge variant="outline" className="text-xs">Typescript</Badge>
-                        <Badge variant="outline" className="text-xs">Shadcn</Badge>
-                        <Badge variant="outline" className="text-xs">TailwindCSS</Badge>
-                      </div>
-                      <div className="flex items-center justify-between">
-                        <a href="https://prezstige.com/" target="_blank" rel="noopener noreferrer">
-                          <Button className="bg-primary text-primary-foreground hover:bg-primary/90">
-                            View Project <ExternalLink className="ml-2 h-4 w-4" />
-                          </Button>
-                        </a>
-                        <span className="text-xs text-muted-foreground">March 2025</span>
-                      </div>
-                    </div>
-                    <div className="relative aspect-video overflow-hidden rounded-lg">
-                      <Image
-                        src="/assets/projects/prezstige_web.png"
-                        alt="Prezstige"
-                        layout="fill"
-                        objectFit="cover"
-                        className="transition-transform duration-300 hover:scale-105"
-                        loading="lazy"
-                        placeholder="blur"
-                        blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDABQODxIPDRQSEBIXFRQdHx4dHRsdHR4dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR3/2wBDAR4SEhwYHDIYGDIdHRkyLR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR3/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAb/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
-                        quality={90}
-                      />
-                    </div>
+                  <div className="flex items-center justify-between pt-2">
+                    <a
+                      href="https://kalunasan.barangmi.systems"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <Button className="gap-2">
+                        View Project <ExternalLink className="h-4 w-4" />
+                      </Button>
+                    </a>
+                    <span className="text-xs text-muted-foreground">
+                      Lead Developer · October 2025
+                    </span>
                   </div>
-                </TabsContent>
+                </div>
+                <div className="relative aspect-video overflow-hidden rounded-xl border border-border">
+                  <Image
+                    src="/assets/projects/barangmi_web.png"
+                    alt="BarangMI"
+                    fill
+                    sizes="(max-width: 1024px) 100vw, 50vw"
+                    className="object-cover"
+                    loading="lazy"
+                    placeholder="blur"
+                    blurDataURL={BLUR}
+                    quality={90}
+                  />
+                </div>
+              </div>
+            </TabsContent>
+          </Tabs>
+        </section>
 
-                <TabsContent value="capstone">
-                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                    <div className="space-y-4">
-                      <div className="flex items-center justify-between">
-                        <h3 className="text-2xl font-bold text-foreground">BarangMI</h3>
-                        <Badge variant="secondary" className="bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400">Community Project</Badge>
-                      </div>
-                      <p className="text-sm text-muted-foreground leading-relaxed">
-                      BarangMI is an AI-powered, multi-tenant, and configurable centralized platform designed to automate administrative processes, improve transparency, and enhance citizen services within barangays.
-                      </p>
-                      <div className="flex flex-wrap gap-2">
-                        <Badge variant="outline" className="text-xs">React</Badge>
-                        <Badge variant="outline" className="text-xs">TailwindCSS</Badge>
-                        <Badge variant="outline" className="text-xs">PostgreSQL</Badge>
-                        <Badge variant="outline" className="text-xs">Typescript</Badge>
-                        <Badge variant="outline" className="text-xs">Shadcn</Badge>
-                        <Badge variant="outline" className="text-xs">Laravel</Badge>
-                        <Badge variant="outline" className="text-xs">JWT</Badge>
-                        <Badge variant="outline" className="text-xs">Spatie</Badge>
-                        <Badge variant="outline" className="text-xs">PHP</Badge>
-                        <Badge variant="outline" className="text-xs">React Native</Badge>
-                        <Badge variant="outline" className="text-xs">Expo</Badge>
-                        <Badge variant="outline" className="text-xs">Python</Badge>
-                        <Badge variant="outline" className="text-xs">Flask</Badge>
-                        <Badge variant="outline" className="text-xs">NX Monorepo</Badge>
-                        <Badge variant="outline" className="text-xs">Vite</Badge>
-                        <Badge variant="outline" className="text-xs">Node JS</Badge>
-                        <Badge variant="outline" className="text-xs">SMTP</Badge>
-                      </div>
-                      <div className="flex items-center gap-3">
-                        <a href="https://kalunasan.barangmi.systems" target="_blank" rel="noopener noreferrer">
-                          <Button className="bg-primary text-primary-foreground hover:bg-primary/90">
-                            View Project <ExternalLink className="ml-2 h-4 w-4" />
-                          </Button>
-                        </a>
-                        {(() => {
-                          const barangmiProject = recentProjects.find(p => p.name === "BarangMI");
-                          return barangmiProject?.demoVideo ? (
-                            <a href={barangmiProject.demoVideo} target="_blank" rel="noopener noreferrer">
-                              <Button variant="outline" className="text-primary hover:bg-primary/10">
-                                <Play className="mr-2 h-4 w-4" />
-                                View Demo Video
-                              </Button>
-                            </a>
-                          ) : null;
-                        })()}
-                      </div>
-                      <div className="flex items-center justify-end">
-                        <span className="text-xs text-muted-foreground">October 2025</span>
-                      </div>
-                    </div>
-                    <div className="relative aspect-video overflow-hidden rounded-lg">
-                      <Image
-                        src="/assets/projects/barangmi_web.png"
-                        alt="BarangMI"
-                        layout="fill"
-                        objectFit="cover"
-                        className="transition-transform duration-300 hover:scale-105"
-                        loading="lazy"
-                        placeholder="blur"
-                        blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDABQODxIPDRQSEBIXFRQdHx4dHRsdHR4dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR3/2wBDAR4SEhwYHDIYGDIdHRkyLR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR3/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAb/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
-                        quality={90}
-                      />
-                    </div>
+        {/* About */}
+        <section data-reveal className="mb-14">
+          <SectionHeading>About</SectionHeading>
+          <p className="mt-4 max-w-2xl text-[15px] leading-relaxed text-muted-foreground">
+            I&rsquo;m a Software Engineer who builds practical applications that
+            solve real-world problems across web, mobile, and AI-powered systems
+            &mdash; from Laravel and Next.js backends to Flutter apps and agentic
+            AI workflows. I&rsquo;m open to Software Engineer, Full-Stack, Mobile,
+            and AI-focused roles (PH / remote) where I can contribute to a product
+            and grow with a team that values knowledge sharing.
+          </p>
+        </section>
+
+        {/* Experience + Education */}
+        <section id="experience" data-reveal className="mb-14">
+          <SectionHeading>Experience</SectionHeading>
+          <ol className="mt-6 space-y-6">
+            {experience.map((job, i) => (
+              <li key={i} className="flex gap-4">
+                <div className="flex flex-col items-center">
+                  <span
+                    className={`mt-1.5 h-3 w-3 shrink-0 rounded-full border-2 border-foreground ${
+                      i === 0 ? "bg-foreground" : "bg-background"
+                    }`}
+                  />
+                  {i < experience.length - 1 && (
+                    <span className="mt-1 w-px flex-grow bg-border" />
+                  )}
+                </div>
+                <div className="flex-1 pb-1">
+                  <div className="flex flex-wrap items-baseline justify-between gap-x-4">
+                    <h3 className="text-[15px] font-semibold">{job.role}</h3>
+                    <span className="text-xs text-muted-foreground">
+                      {job.period}
+                    </span>
                   </div>
-                </TabsContent>
-              </Tabs>
-            </CardContent>
-          </Card>
+                  <p className="text-sm font-medium text-muted-foreground">
+                    {job.company}
+                  </p>
+                  <p className="mt-1.5 max-w-2xl text-sm leading-relaxed text-muted-foreground">
+                    {job.description}
+                  </p>
+                </div>
+              </li>
+            ))}
+          </ol>
+          <div className="mt-6 grid gap-6 sm:grid-cols-2">
+            <div className="rounded-xl border border-border p-5">
+              <h3 className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+                Education
+              </h3>
+              <p className="mt-2 text-sm font-semibold">{education.role}</p>
+              <p className="text-sm text-muted-foreground">{education.school}</p>
+              <p className="mt-1 text-xs text-muted-foreground">
+                {education.period} · {education.note}
+              </p>
+            </div>
+            <div className="rounded-xl border border-border p-5">
+              <h3 className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+                Achievements
+              </h3>
+              <ul className="mt-2 space-y-2">
+                {achievements.map((a, i) => (
+                  <li key={i} className="text-sm">
+                    <span className="font-semibold">{a.title}</span>
+                    <span className="text-muted-foreground"> — {a.description}</span>
+                    <span className="block text-xs text-muted-foreground">{a.date}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </section>
 
-          {/* Testimonials Card */}
-          <Card className="col-span-full md:col-span-1 bg-card border border-border">
-            <CardHeader className="pb-2">
-              <CardTitle className="text-xl text-foreground flex items-center">
-                <span className="w-1 h-8 bg-primary mr-3"></span>
-                <span className="bg-gradient-to-r from-primary to-primary/60 text-transparent bg-clip-text">
-                  Testimonials
-                </span>
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="relative">
-                <div className="overflow-hidden">
-                  <div
-                    className="flex transition-transform duration-500 ease-in-out"
-                    style={{ transform: `translateX(-${currentSlide * 100}%)` }}
-                  >
-                    {testimonials.map((testimonial, index) => (
-                      <blockquote
-                        key={index}
-                        className="flex-shrink-0 w-full border-l-4 border-primary pl-4 italic text-sm text-muted-foreground"
+        {/* Tech Stack — grouped, tiered, collapsible */}
+        <section data-reveal className="mb-14">
+          <div className="flex items-center justify-between">
+            <SectionHeading>Tech Stack</SectionHeading>
+            <button
+              type="button"
+              onClick={() => setShowAllStack((v) => !v)}
+              className="text-sm font-medium text-muted-foreground underline-offset-4 hover:text-foreground hover:underline"
+            >
+              {showAllStack ? "Show core only" : "Show all"}
+            </button>
+          </div>
+          <div className="mt-6 grid gap-x-8 gap-y-5 sm:grid-cols-2">
+            {techStack.map((category, index) => {
+              const core = category.techs.filter((t) =>
+                mainTech(category.category, t)
+              );
+              const rest = category.techs.filter(
+                (t) => !mainTech(category.category, t)
+              );
+              return (
+                <div key={index}>
+                  <h3 className="mb-2 flex items-center justify-between text-sm font-semibold">
+                    <span>{category.category}</span>
+                    <span
+                      aria-hidden="true"
+                      className="text-xs font-normal text-muted-foreground"
+                    >
+                      {category.techs.length}
+                    </span>
+                  </h3>
+                  <div className="flex flex-wrap gap-1.5">
+                    {core.map((tech) => (
+                      <Badge
+                        key={tech}
+                        className="bg-foreground text-[11px] font-semibold text-background"
                       >
-                        {testimonial.text}
-                        <footer className="text-right mt-2 text-primary text-xs">
-                          - {testimonial.author}, {testimonial.role}
-                        </footer>
-                      </blockquote>
+                        {tech}
+                      </Badge>
+                    ))}
+                    {(showAllStack ? rest : []).map((tech) => (
+                      <Badge
+                        key={tech}
+                        variant="outline"
+                        className="text-[11px] font-normal"
+                      >
+                        {tech}
+                      </Badge>
                     ))}
                   </div>
                 </div>
-                <button
-                  onClick={() =>
-                    setCurrentSlide((prev) =>
-                      prev === 0 ? testimonials.length - 1 : prev - 1
-                    )
-                  }
-                  className="absolute left-0 top-1/2 transform -translate-y-1/2 bg-primary/10 hover:bg-primary/20 p-2 rounded-full"
+              );
+            })}
+          </div>
+        </section>
+
+        {/* Testimonials + Connect */}
+        <section className="mb-8 grid gap-10 lg:grid-cols-2">
+          <div data-reveal>
+            <SectionHeading>What clients say</SectionHeading>
+            <div className="relative mt-4 pr-2">
+              <div className="overflow-hidden">
+                <div
+                  className="flex transition-transform duration-500 ease-out"
+                  style={{ transform: `translateX(-${currentSlide * 100}%)` }}
                 >
-                  <ChevronLeft className="h-6 w-6 text-primary" />
-                </button>
-                <button
-                  onClick={() =>
-                    setCurrentSlide((prev) =>
-                      prev === testimonials.length - 1 ? 0 : prev + 1
-                    )
-                  }
-                  className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-primary/10 hover:bg-primary/20 p-2 rounded-full"
-                >
-                  <ChevronRight className="h-6 w-6 text-primary" />
-                </button>
-                <div className="flex justify-center mt-4 gap-2">
-                  {[0, 1].map((index) => (
-                    <button
-                      key={index}
-                      onClick={() => setCurrentSlide(index)}
-                      className={`w-2 h-2 rounded-full transition-colors ${currentSlide === index
-                          ? "bg-primary"
-                          : "bg-primary/50 hover:bg-primary"
-                        }`}
-                    ></button>
+                  {testimonials.map((t, i) => (
+                    <figure
+                      key={i}
+                      className="w-full flex-shrink-0"
+                      aria-hidden={currentSlide !== i}
+                    >
+                      <blockquote className="text-[15px] leading-relaxed text-foreground">
+                        “{t.text}”
+                      </blockquote>
+                      <figcaption className="mt-3 text-sm text-muted-foreground">
+                        <span className="font-medium text-foreground">
+                          {t.author}
+                        </span>
+                        , {t.role}
+                      </figcaption>
+                    </figure>
                   ))}
                 </div>
               </div>
-            </CardContent>
-          </Card>
-
-          {/* Connect Card */}
-          <Card className="col-span-full md:col-span-1 bg-card border border-border hover:shadow-lg transition-shadow duration-300">
-            <CardHeader className="pb-2">
-              <CardTitle className="text-xl text-foreground flex items-center">
-                <span className="w-1 h-8 bg-primary mr-3 rounded-full"></span>
-                <span className="bg-gradient-to-r from-primary to-primary/60 text-transparent bg-clip-text">
-                  Connect
-                </span>
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="flex flex-col space-y-4">
-                <a
-                  href="https://github.com/ddextroo"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group"
+              <div className="mt-5 flex items-center gap-3">
+                <button
+                  type="button"
+                  aria-label="Previous testimonial"
+                  onClick={() =>
+                    setCurrentSlide((p) =>
+                      p === 0 ? testimonials.length - 1 : p - 1
+                    )
+                  }
+                  className="rounded-full border border-border p-2 hover:bg-muted"
                 >
-                  <Button
-                    variant="outline"
-                    className="w-full flex items-center justify-start space-x-3 py-6 text-primary hover:bg-primary/10 hover:border-primary transition-all duration-300"
-                  >
-                    <Github className="h-5 w-5 group-hover:scale-110 transition-transform duration-300" />
-                    <span className="font-medium">Follow on GitHub</span>
-                  </Button>
-                </a>
-                <a
-                  href="https://www.linkedin.com/in/dexter-inguito-b039a827b/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group"
+                  <ChevronLeft className="h-4 w-4" />
+                </button>
+                <button
+                  type="button"
+                  aria-label="Next testimonial"
+                  onClick={() =>
+                    setCurrentSlide((p) =>
+                      p === testimonials.length - 1 ? 0 : p + 1
+                    )
+                  }
+                  className="rounded-full border border-border p-2 hover:bg-muted"
                 >
-                  <Button
-                    variant="outline"
-                    className="w-full flex items-center justify-start space-x-3 py-6 text-primary hover:bg-primary/10 hover:border-primary transition-all duration-300"
-                  >
-                    <Linkedin className="h-5 w-5 group-hover:scale-110 transition-transform duration-300" />
-                    <span className="font-medium">Connect on LinkedIn</span>
-                  </Button>
-                </a>
-                <a
-                  href="https://www.facebook.com/dexter.inguito.7"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group"
-                >
-                  <Button
-                    variant="outline"
-                    className="w-full flex items-center justify-start space-x-3 py-6 text-primary hover:bg-primary/10 hover:border-primary transition-all duration-300"
-                  >
-                    <Facebook className="h-5 w-5 group-hover:scale-110 transition-transform duration-300" />
-                    <span className="font-medium">Find me on Facebook</span>
-                  </Button>
-                </a>
+                  <ChevronRight className="h-4 w-4" />
+                </button>
+                <div className="ml-1 flex gap-2">
+                  {testimonials.map((_, i) => (
+                    <button
+                      key={i}
+                      type="button"
+                      aria-label={`Go to testimonial ${i + 1}`}
+                      onClick={() => setCurrentSlide(i)}
+                      className={`h-2 w-2 rounded-full transition-colors ${
+                        currentSlide === i ? "bg-foreground" : "bg-border"
+                      }`}
+                    />
+                  ))}
+                </div>
               </div>
-            </CardContent>
-          </Card>
-        </div>
+            </div>
+          </div>
+
+          <div id="contact" data-reveal>
+            <SectionHeading>Connect</SectionHeading>
+            <div className="mt-4 flex flex-col gap-3">
+              <a
+                href="https://github.com/ddextroo"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Button
+                  variant="outline"
+                  className="w-full justify-start gap-3 py-6"
+                >
+                  <Github className="h-5 w-5" /> Follow on GitHub
+                </Button>
+              </a>
+              <a
+                href="https://www.linkedin.com/in/dexter-inguito-b039a827b/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Button
+                  variant="outline"
+                  className="w-full justify-start gap-3 py-6"
+                >
+                  <Linkedin className="h-5 w-5" /> Connect on LinkedIn
+                </Button>
+              </a>
+              <a
+                href="https://www.facebook.com/dexter.inguito.7"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Button
+                  variant="outline"
+                  className="w-full justify-start gap-3 py-6"
+                >
+                  <Facebook className="h-5 w-5" /> Find me on Facebook
+                </Button>
+              </a>
+            </div>
+          </div>
+        </section>
+
+        <footer className="border-t border-border pt-6 text-sm text-muted-foreground">
+          <p>
+            Built with Next.js · Open to full-stack roles (PH / remote).{" "}
+            <a
+              href="mailto:dexteringuito3@gmail.com"
+              className="font-medium text-foreground underline-offset-4 hover:underline"
+            >
+              dexteringuito3@gmail.com
+            </a>
+          </p>
+        </footer>
       </div>
-    </ThemeProvider>
+    </div>
   );
 }
